@@ -109,45 +109,75 @@ class Hotel {
     }
 
     // Reserves the days that customers reserved. 1 isReserved, 2 isCheckInDate, 3 isCheckOutDate, 4 isOverlap
-	// NEED CHANGES
-    public void addReservation(String guestName, int checkInDate, int checkOutDate, Room room) {
-       boolean validity = reservation.checkReservation(checkInDate, checkOutDate);
-	    if(validity){
-		    reservation.Reservation(guestName, checkInDate, checkOutDate, room);
-		    roomList.setReservationList(1, checkInDate, checkOutDate);
-	    }
+    // NEED CHANGES
+    public boolean addReservation() {
+        Scanner scanner = new Scanner(System.in);
+        String guestName, roomName;
+        int checkInDate, checkOutDate;
+        Room room = null;
+        boolean flag = false;
+
+        System.out.println("Enter guest name: ");
+        guestName = scanner.nextLine();
+
+        System.out.println("Enter check in date: ");
+        checkInDate = scanner.nextInt();
+
+        System.out.println("Enter check-out date: ");
+        checkOutDate = scanner.nextInt();
+
+        System.out.println("Enter room name: (Please input exact name)");
+        roomName = scanner.next();
+
+        for (Room rHold : roomList)
+        {
+            if (rHold.getRoomName().equals(roomName))
+                room = rHold;
+        }
+
+        if (room != null) {
+            Reservation newReservation = new Reservation(guestName, checkInDate, checkOutDate, room);
+            flag = newReservation.checkReservation(checkInDate, checkOutDate); //Check first
+
+            if (flag) {
+                room.getReservations().add(newReservation);                 // Adds reservation to reservationList
+                room.setReservationList(1, checkInDate, checkOutDate); // Puts days reserved in the calendar
+                room.setReserved(true);                                     // Sets room to 'reserved' or 'true' for isReserved
+            } else
+                return false;
+        }
+        return true; // Set nalang sa main the print statement that it is successful or not
     }
 
     // Need to do something about overlaps. Might need a method to check other reservations and make sure the dates are always reserved or reuse addReservation.
-	// NEED CHANGES
-    public void cancelReservation(String guestName, int checkInDate, int checkOutDate) {
-	    roomList.setReservationList(0, checkInDate, checkOutDate);
+    public boolean cancelReservation() {
+        Scanner scanner = new Scanner(System.in);
+        String guestName;
+
+        System.out.println("Enter guest name: ");
+        guestName = scanner.nextLine();
+
+        for (Room room : roomList) {
+            for (Reservation reservation : room.getReservations()) {
+                if (reservation.getGuestName().equals(guestName)) {
+                    room.getReservations().remove(reservation);
+                    room.setReservationList(0, reservation.getCheckInDate(), reservation.getCheckOutDate());
+                    return true;
+                }
+            }
+        }
+        return false;
     }
-    
+
     /*
      * when it is successful setReserved(true)
      * @reservation
      */
-    public boolean addReservation(String guestName, int checkInDay, int checkOutDay) {   // When a reservation is added room would be Reserved, set true
-        // iterate through the index of reservation list 1-31 to see which days are reserved
-        // check first if rooms are already reserved (Reserved)
-        for (Room room : roomList) { // Iterate through the rooms
-
-
-            //iterate through the rooms to check their reservationlist
-
-
-        }
-        // each room has 31 possible days to be reserved
-    }
-
-    public boolean removeReservation(String guestName) {
-
-    }
 
     public double calculateEstimatedEarnings() {   // based on reservation ITERATE THROUGH ALL ROOMS
+        double totalEarnings = 0;
         for (Room room : roomList) {
-            for (Reservation reservation : Room.getReservations()) {
+            for (Reservation reservation : room.getReservations()) {
                 totalEarnings += reservation.getTotalPrice();
             }
         }
