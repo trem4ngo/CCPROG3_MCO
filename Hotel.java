@@ -108,6 +108,34 @@ class Hotel {
         return true;
     }
 
+    // Reserves the days that customers reserved. 1 isReserved, 2 isCheckInDate, 3 isCheckOutDate, 4 isOverlap
+    public void addReservation() {
+        int i;
+        int cID = reservation.getCheckInDate()-1;
+        int cOD = reservation.getCheckOutDate()-1;
+
+        for (i = cID; i < cOD; i++){
+            if(i == cID)
+                daysReserved[i] = 2;
+            else if(i == cOD)
+                daysReserved[i] = 3;
+            else if(daysReserved[i] == 3 || daysReserved[i] == 2)
+                daysReserved[i] = 4;
+            else
+                daysReserved[i] = 1;
+        } 
+    }
+
+    // Need to do something about overlaps. Might need a method to check other reservations and make sure the dates are always reserved or reuse addReservation.
+    public void cancelReservation() {
+	    int i;
+        int cID = reservation.getCheckInDate()-1;
+        int cOD = reservation.getCheckOutDate()-1;
+
+        for (i = cID; i < cOD; i++)
+                daysReserved[i] = 0;
+    }
+    
     /*
      * when it is successful setReserved(true)
      * @reservation
