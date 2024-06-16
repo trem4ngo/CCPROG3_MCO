@@ -16,10 +16,6 @@ class Reservation {
         this.totalPrice = 0;
     }
 
-    /*
-     * overlaps method (allows check in and out on the same day)
-     */
-
     public String getGuestName() {
         return this.guestName;
     }
@@ -55,21 +51,18 @@ class Reservation {
     }
 
     // Condition checking to verify if new reservation is possible. True if reservation is valid and false if not.
-    // CHECKING
     public boolean checkReservation(int checkInDate, int checkOutDate) {
         int i;
-        int[] reservedDays == room.getDaysReserved();
+        int[] reservedDays = room.getDaysReserved();
 
-        if (CheckOutDate == 1 || CheckInDate == 31 || CheckInDate == 0 || CheckOutDate == 0)
+        if (checkOutDate == 1 || checkInDate == 31 || checkInDate == 0 || checkOutDate == 0)
             return false;
-        else{
-            for (i = CheckInDate-1; i < CheckOutDate; i++){
+        else {
+            for (i = checkInDate - 1; i < checkOutDate; i++) {
                 if (reservedDays[i] != 0)
                     return false;
             }
         }
-
         return true;
     }
-
 }
