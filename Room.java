@@ -1,61 +1,64 @@
 import java.util.ArrayList;
 
-class Room {
+class Reservation {
 
-    private final String roomName;
-    private double basePrice;
-    private boolean isReserved;                     // Just signifies if just one day is reserved for ease
-    private static ArrayList<Reservation> reservationList; // Stores the reservation list -- static is used to be used in other classes
-    private int[] daysReserved;                     // 1 - 31 days (indexing + 1 due to 0)
+    private String guestName;
+    private int checkInDate;
+    private int checkOutDate;
+    private Room room;
+    private double totalPrice;
 
-    public Room(String roomName) {
-        this.roomName = roomName;
-        this.basePrice = 1299.0;
-        this.isReserved = false;
-        reservationList = new ArrayList<>();
-        this.daysReserved = new int[31];
+    public Reservation(String guestName, int checkInDate, int checkOutDate, Room room) {
+        this.guestName = guestName;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.room = room;
+        this.totalPrice = 0;
     }
 
-    public String getRoomName() {
-        return this.roomName;
+    /*
+     * overlaps method (allows check in and out on the same day)
+     */
+
+    public String getGuestName() {
+        return this.guestName;
     }
 
-    public void setReservationList() {
-        int i;
-        for (i = 0; i < daysReserved.length; i++)
-            daysReserved[i] = 0;
+    public int getCheckInDate() {
+        return this.checkInDate;
     }
 
-    public static ArrayList<Reservation> getReservations() {
-        return reservationList;
+    public int getCheckOutDate() {
+        return this.checkOutDate;
     }
 
-    public int[] getDaysReserved() {
-        return daysReserved;
+    public Room getRoom() {
+        return this.room;
     }
 
-    public double getBasePrice() {
-        return this.basePrice;
+    public double getTotalPrice() {
+        return this.totalPrice;
     }
 
-    public void setBasePrice(double newPrice) {
-        this.basePrice = newPrice;
+    /*
+     * if lets say check in and out is in the same day make a condition that it would equal to 1
+     */
+    public boolean checkValidity() {
+
     }
 
-    public boolean isReserved() {
-        return this.isReserved;
-    } // Checks and returns if room is reserved
-
-    public void setReserved(boolean reserved) {     // Sets a room to true (sReserved")
-        this.isReserved = reserved;
+    public void calculateTotalPrice() {  // Total price for only one reservation
+        int numOfDays = this.checkOutDate - this.checkInDate + 1;
+        this.totalPrice = numOfDays * this.room.getBasePrice();
     }
 
-    public int countDaysReserved() {
-        int count = 0;
-        for (Reservation reservation : reservationList) {
-            count += reservation.getCheckOutDate() - reservation.getCheckInDate() + 1;
-        }
-        return count;
+    /*
+     * tostring method where we just show the number of days and multiply to base price to show the totalprice
+     */
+    public String getPriceBreakdown() {
+        int numOfDays = this.checkOutDate - this.checkInDate + 1;
+        double basePrice = this.room.getBasePrice();
+        return "Total Price Breakdown: " + "You reserved for a total of " + numOfDays + " days. Days * $" + basePrice + " per night = $" + this.totalPrice;
     }
 
 
