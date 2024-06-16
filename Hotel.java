@@ -142,7 +142,7 @@ class Hotel {
      * when it is successful setReserved(true)
      * @reservation
      */
-    public boolean addReservation(String guestName, int checkInDay, int checkOutDay, String roomName) {   // When a reservation is added room would be Reserved, set true
+    public boolean addReservation(String guestName, int checkInDay, int checkOutDay) {   // When a reservation is added room would be Reserved, set true
         // iterate through the index of reservation list 1-31 to see which days are reserved
         // check first if rooms are already reserved (Reserved)
         for (Room room : roomList) { // Iterate through the rooms
