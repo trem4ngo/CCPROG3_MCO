@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 class HotelSystem {
-
+//test
     private ArrayList<Hotel> hotelList;
 
     /*
