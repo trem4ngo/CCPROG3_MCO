@@ -26,16 +26,16 @@ class Room {
         if(rTag !=0){
             for (i = checkInDate-1; i < checkOutDate; i++){
                 if(i == checkInDate-1)
-                    daysReserved[i] = 2;
+                    this.daysReserved[i] = 2;
                 else if(i == checkOutDate-1)
-                    daysReserved[i] = 3;
-                else if(daysReserved[i] == 3 || daysReserved[i] == 2)
-                    daysReserved[i] = 4;
+                    this.daysReserved[i] = 3;
+                else if(this.daysReserved[i] == 3 || this.daysReserved[i] == 2)
+                    this.daysReserved[i] = 4;
                 else
-                    daysReserved[i] = 1;
+                    this.daysReserved[i] = 1;
         }else{
             for (i = checkInDate-1; i < checkOutDate; i++)
-                daysReserved[i] = 0;
+                this.daysReserved[i] = 0;
         }
     }
 
