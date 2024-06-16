@@ -7,12 +7,14 @@ class Hotel {
     private String hotelName;
     private ArrayList<Room> roomList;
     private int roomNumber;
+    private double totalEarnings;
 
     public Hotel(String hotelName, int hotelID) {
         this.hotelName = hotelName;
         this.hotelID = hotelID;
         roomList = new ArrayList<>();
         this.roomNumber = 1;                // When we create hotel, room number would be 1
+        this.totalEarnings = 0;
     }
 
     public String getHotelName() {
@@ -128,11 +130,9 @@ class Hotel {
     }
 
     public double calculateEstimatedEarnings() {   // based on reservation ITERATE THROUGH ALL ROOMS
-        double totalEarnings = 0;
-        int i;
-        for (i = 0; i < roomList.size(); i++) {
+        for (Room room : roomList) {
             for (Reservation reservation : Room.getReservations()) {
-                totalEarnings += reservation.calculateTotalPrice();
+                totalEarnings += reservation.getTotalPrice();
             }
         }
         return totalEarnings;
