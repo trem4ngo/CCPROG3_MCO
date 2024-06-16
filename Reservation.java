@@ -58,5 +58,22 @@ class Room {
         return count;
     }
 
+    // Condition checking to verify if new reservation is possible. True if reservation is valid and false if not.
+    public boolean checkReservations() {
+        int i;
+        int[] reservedDays == room.getDaysReserved();
+
+        if (this.CheckOutDate == 1 || this.CheckInDate == 31 || this.CheckInDate == 0 || this.CheckOutDate == 0)
+            return false;
+        else{
+            for (i = this.CheckInDate-1; i < this.CheckOutDate; i++){
+                if (reservedDays[i] != 0)
+                    return false;
+            }
+        }
+
+        return true;
+    } 
+
 
 }
