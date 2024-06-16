@@ -70,12 +70,5 @@ class Reservation {
 
         return true;
     }
-    
-    /*
-     * if lets say check in and out is in the same day make a condition that it would equal to 1
-     */
-    public boolean checkValidity() {
-
-    }
 
 }
