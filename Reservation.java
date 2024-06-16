@@ -55,6 +55,7 @@ class Reservation {
     }
 
     // Condition checking to verify if new reservation is possible. True if reservation is valid and false if not.
+    // CHECKING
     public boolean checkReservations() {
         int i;
         int[] reservedDays == room.getDaysReserved();
