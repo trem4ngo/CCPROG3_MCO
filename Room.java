@@ -20,10 +20,10 @@ class Room {
         return this.roomName;
     }
 
-    public void setReservationList() {  // Sets all to 0 not reserved
+    public void setReservationList(int rTag, int checkInDate,int checkOutDate) {  // Sets all to 0 not reserved
         int i;
-        for (i = 0; i < daysReserved.length; i++)
-            daysReserved[i] = 0;
+        for (i = checkInDate-1; i < checkOutDate; i++)
+            daysReserved[i] = rTag;
     }
 
     public static ArrayList<Reservation> getReservations() {
