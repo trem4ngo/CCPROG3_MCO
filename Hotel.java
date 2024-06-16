@@ -109,6 +109,7 @@ class Hotel {
     }
 
     // Reserves the days that customers reserved. 1 isReserved, 2 isCheckInDate, 3 isCheckOutDate, 4 isOverlap
+	// NEED CHANGES
     public void addReservation() {
         int i;
         int cID = reservation.getCheckInDate()-1;
@@ -127,6 +128,7 @@ class Hotel {
     }
 
     // Need to do something about overlaps. Might need a method to check other reservations and make sure the dates are always reserved or reuse addReservation.
+	// NEED CHANGES
     public void cancelReservation() {
 	    int i;
         int cID = reservation.getCheckInDate()-1;
