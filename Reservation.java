@@ -40,13 +40,6 @@ class Reservation {
         return this.totalPrice;
     }
 
-    /*
-     * if lets say check in and out is in the same day make a condition that it would equal to 1
-     */
-    public boolean checkValidity() {
-
-    }
-
     public void calculateTotalPrice() {  // Total price for only one reservation
         int numOfDays = this.checkOutDate - this.checkInDate + 1;
         this.totalPrice = numOfDays * this.room.getBasePrice();
@@ -87,6 +80,13 @@ class Reservation {
 
         for (i = cID; i < cOD; i++)
                 daysReserved[i] = 0;
+    }
+
+    /*
+     * if lets say check in and out is in the same day make a condition that it would equal to 1
+     */
+    public boolean checkValidity() {
+
     }
 
 }
