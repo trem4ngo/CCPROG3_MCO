@@ -112,8 +112,10 @@ class Hotel {
 	// NEED CHANGES
     public void addReservation(String guestName, int checkInDate, int checkOutDate) {
        boolean validity = reservation.checkReservation(checkInDate, checkOutDate);
-	    if(validity)
+	    if(validity){
+		    reservation.Reservation();
 		    roomList.setReservationList(1, checkInDate, checkOutDate);
+	    }
     }
 
     // Need to do something about overlaps. Might need a method to check other reservations and make sure the dates are always reserved or reuse addReservation.
