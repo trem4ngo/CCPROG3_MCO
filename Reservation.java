@@ -79,4 +79,14 @@ class Reservation {
         } 
     }
 
+    // Need to do something about overlaps. Might need a method to check other reservations and make sure the dates are always reserved or reuse addReservation.
+    public void cancelReservation() {
+	    int i;
+        int cID = reservation.getCheckInDate()-1;
+        int cOD = reservation.getCheckOutDate()-1;
+
+        for (i = cID; i < cOD; i++)
+                daysReserved[i] = 0;
+    }
+
 }
