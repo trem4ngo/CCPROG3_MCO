@@ -110,15 +110,13 @@ class Hotel {
 
     // Reserves the days that customers reserved. 1 isReserved, 2 isCheckInDate, 3 isCheckOutDate, 4 isOverlap
 	// NEED CHANGES
-    public void addReservation() {
+    public void addReservation(String guestName, int checkInDate, int checkOutDate) {
         int i;
-        int cID = reservation.getCheckInDate()-1;
-        int cOD = reservation.getCheckOutDate()-1;
 
-        for (i = cID; i < cOD; i++){
-            if(i == cID)
+        for (i = checkInDate-1; i < checkOutDate; i++){
+            if(i == checkInDate)
                 daysReserved[i] = 2;
-            else if(i == cOD)
+            else if(i == checkOutDate)
                 daysReserved[i] = 3;
             else if(daysReserved[i] == 3 || daysReserved[i] == 2)
                 daysReserved[i] = 4;
@@ -129,7 +127,7 @@ class Hotel {
 
     // Need to do something about overlaps. Might need a method to check other reservations and make sure the dates are always reserved or reuse addReservation.
 	// NEED CHANGES
-    public void cancelReservation() {
+    public void cancelReservation(String guestName, int checkInDate, int checkOutDate) {
 	    int i;
         int cID = reservation.getCheckInDate()-1;
         int cOD = reservation.getCheckOutDate()-1;
