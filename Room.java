@@ -72,7 +72,7 @@ class Reservation {
                 daysReserved[i] = 2;
             else if(i == cOD)
                 daysReserved[i] = 3;
-            else if(daysReserved[i] == 3)
+            else if(daysReserved[i] == 3 || daysReserved[i] == 2)
                 daysReserved[i] = 4;
             else
                 daysReserved[i] = 1;
