@@ -114,9 +114,9 @@ class Hotel {
         int i;
 
         for (i = checkInDate-1; i < checkOutDate; i++){
-            if(i == checkInDate)
+            if(i == checkInDate-1)
                 daysReserved[i] = 2;
-            else if(i == checkOutDate)
+            else if(i == checkOutDate-1)
                 daysReserved[i] = 3;
             else if(daysReserved[i] == 3 || daysReserved[i] == 2)
                 daysReserved[i] = 4;
