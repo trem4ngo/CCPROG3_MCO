@@ -110,10 +110,10 @@ class Hotel {
 
     // Reserves the days that customers reserved. 1 isReserved, 2 isCheckInDate, 3 isCheckOutDate, 4 isOverlap
 	// NEED CHANGES
-    public void addReservation(String guestName, int checkInDate, int checkOutDate) {
+    public void addReservation(String guestName, int checkInDate, int checkOutDate, Room room) {
        boolean validity = reservation.checkReservation(checkInDate, checkOutDate);
 	    if(validity){
-		    reservation.Reservation();
+		    reservation.Reservation(guestName, checkInDate, checkOutDate, room);
 		    roomList.setReservationList(1, checkInDate, checkOutDate);
 	    }
     }
