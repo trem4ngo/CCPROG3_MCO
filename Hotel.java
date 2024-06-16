@@ -111,18 +111,15 @@ class Hotel {
     // Reserves the days that customers reserved. 1 isReserved, 2 isCheckInDate, 3 isCheckOutDate, 4 isOverlap
 	// NEED CHANGES
     public void addReservation(String guestName, int checkInDate, int checkOutDate) {
-       
+       boolean validity = reservation.checkReservation(checkInDate, checkOutDate);
+	    if(validity)
+		    roomList.setReservationList(1, checkInDate, checkOutDate);
     }
 
     // Need to do something about overlaps. Might need a method to check other reservations and make sure the dates are always reserved or reuse addReservation.
 	// NEED CHANGES
     public void cancelReservation(String guestName, int checkInDate, int checkOutDate) {
-	    int i;
-        int cID = reservation.getCheckInDate()-1;
-        int cOD = reservation.getCheckOutDate()-1;
-
-        for (i = cID; i < cOD; i++)
-                daysReserved[i] = 0;
+	    roomList.setReservationList(0, checkInDate, checkOutDate);
     }
     
     /*
