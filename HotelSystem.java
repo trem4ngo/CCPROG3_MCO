@@ -29,8 +29,8 @@ class HotelSystem {
 
         Hotel newHotel = new Hotel(hotelName, hotelList.size() + 1);
         hotelList.add(newHotel);
+        newHotel.addRoom(1);        // Adds 1 room when creating a hotel
         return true;
-
     }
 
     public boolean demolishHotel(String hotelName) {
@@ -38,11 +38,11 @@ class HotelSystem {
         for (Hotel hotel : hotelList) {
             if (hotel.getHotelName().equals(hotelName)) {
                 hotelList.remove(hotel);
-                System.out.println("Hotel with name '" + hotelName + "' has been constructed!");
+                System.out.println("Hotel with name '" + hotelName + "' has been demolished!");
                 return true;
             }
         }
-        System.out.println("Hotel with name '" + hotelName + "' has been demolished!");
+        System.out.println("Hotel with name '" + hotelName + "' has not been demolished. Please input a proper name.");
         return false;
     }
 
