@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 class Room {
 
-    private ArrayList<Reservation> reservationList; // Stores the reservation list -- static is used to be used in other classes
     private final String roomName;
+    private ArrayList<Reservation> reservationList; // Stores the reservation list -- static is used to be used in other classes
     private double basePrice;
     private boolean isReserved;                     // Just signifies if just one day is reserved for ease
     private int[] daysReserved;                     // 1 isReserved, 2 isCheckInDate, 3 isCheckOutDate, 4 isOverlap, 0 isNotReserved
@@ -27,7 +27,8 @@ class Room {
     public void setReservationList(int rTag, int checkInDate, int checkOutDate) {  // Sets all to 0 not reserved
         int i;
 
-        if (rTag != 0) {
+        if (rTag == 1) // Add Reservation
+        {
             for (i = checkInDate - 1; i < checkOutDate; i++) {
                 if (i == checkInDate - 1)
                     this.daysReserved[i] = 2;
@@ -40,10 +41,13 @@ class Room {
             }
         }
 
-        if (rTag == 0)
+        if (rTag == 0) // Cancel Reservation
         {
-            for (i = checkInDate - 1; i < checkOutDate; i++)
-                this.daysReserved[i] = 0;
+            for (i = checkInDate - 1; i < checkOutDate; i++) {
+                if (this.daysReserved[i] != 4)
+                    this.daysReserved[i] = 0;
+            }
+
         }
     }
 
@@ -75,6 +79,11 @@ class Room {
         return count;
     }
 
-    // Create a method to check days reserved and if they are all 0, set reserved to false again
+    public void checkReservation () { // Check days reserved and if they are all 0, set reserved to false again
+        if (this.countDaysReserved() == 0) {
+            this.isReserved = false;
+        }
+    }
+
 
 }
