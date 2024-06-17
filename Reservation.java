@@ -59,7 +59,7 @@ class Reservation {
             return false;
         else {
             for (i = checkInDate - 1; i < checkOutDate; i++) {
-                if (reservedDays[i] != 0)
+                if (reservedDays[i] == 1)
                     return false;
             }
         }
