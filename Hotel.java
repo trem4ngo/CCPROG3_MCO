@@ -1,3 +1,4 @@
+import java.awt.desktop.SystemEventListener;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -29,23 +30,39 @@ class Hotel {
         return roomList;
     }
 
+    public int getNumberOfRooms() {
+        return roomList.size();
+    }
+
     /*
      * unique naming convention
      * @room
      */
     public boolean addRoom(int numberOfRooms) {
+        Scanner scanner = new Scanner(System.in);
         int i;
+        String roomName, confirm;
 
-        if ((numberOfRooms + roomList.size()) > 50) { // If the number of rooms we want to add exceeds 50, don't add
+        if ((numberOfRooms + this.roomList.size()) > 50) { // If the number of rooms we want to add exceeds 50, don't add
             System.out.println("Cannot add more than 50 rooms");
             return false;
         }
 
-        for (i = 0; i < numberOfRooms; i++) {
-            String roomName = hotelID + String.format("%03d", roomNumber++); // So parang 1 (first hotel) then catenate 01, 02, 03, etc.
-            roomList.add(new Room(roomName));
-        }
+        do {
+            System.out.println("\n\nAre you sure you want to continue with this modification? (Y/N) ");
+            confirm = scanner.nextLine();
+        } while (!confirm.equalsIgnoreCase("Y") && !confirm.equalsIgnoreCase("N"));
 
+        if (confirm.equalsIgnoreCase("Y")) {
+            for (i = 0; i < numberOfRooms; i++) {
+                roomName = this.hotelID + String.format("%03d", this.roomNumber++); // So parang 1 (first hotel) then catenate 01, 02, 03, etc.
+                this.roomList.add(new Room(roomName));
+            }
+        }
+        else
+            return true; // The case where the user inputs N to end the loop in System
+
+        System.out.println("\nRoom(s) successfully added.\n");
         return true;
     }
 
@@ -53,45 +70,61 @@ class Hotel {
      * can only be removed if it does not have a active reservation.
      * @room
      */
-    public void removeRoom(String roomName) {
+    public void removeRoom() {
+        Scanner scanner = new Scanner(System.in);
         int i;
-        boolean result = false;
+        String roomName, confirm;
 
-        for (i = 0; i < roomList.size(); i++)
-            if (roomList.get(i).getRoomName().equals(roomName)) {
-                if (roomList.get(i).isReserved())
-                    System.out.println("Cannot remove room that is Reserved/Reserved.");
+        System.out.println("List of rooms: \n");  // CAN BE REMOVED
+        for (Room room : this.roomList) {
+            System.out.println(room.getRoomName() + "\n");
+        }
+
+        System.out.println("\nEnter room name: ");
+        roomName = scanner.nextLine();
+
+        for (i = 0; i < this.roomList.size(); i++) {
+            if (this.roomList.get(i).getRoomName().equals(roomName)) {
+                if (this.roomList.get(i).isReserved())
+                    System.out.println("\nCannot remove room that is Reserved/Reserved.\n");
                 else {
-                    roomList.remove(i);
-                    result = true;
+                    do {
+                        System.out.println("\n\nAre you sure you want to continue with this modification? (Y/N) ");
+                        confirm = scanner.nextLine();
+                    } while (!confirm.equalsIgnoreCase("Y") && !confirm.equalsIgnoreCase("N"));
+
+                    if (confirm.equalsIgnoreCase("Y")) {
+                        this.roomList.remove(i);
+                        System.out.println("\nRoom is successfully removed.\n");
+                    }
+                    else
+                        System.out.println("\nYou cancelled the modification.\n");
                 }
             }
-
-        if (result)
-            System.out.println("Room is successfully removed.");
-        else
-            System.out.println("Room does not exist.");
+            else
+                System.out.println("\nRoom does not exist.\n");
+        }
     }
 
     /*
      * can only update if all rooms are false (none are Reserved) and price must be >= 100.0
      * @room
      */
-    public boolean updateRoomPrice() {
+    public void updateRoomPrice() {
         Scanner scanner = new Scanner(System.in);
-        boolean valid = false;
         double price = 0.0;
+        boolean valid = false;
+        String confirm;
         int i;
 
-        for (i = 0; i < roomList.size(); i++) {
-            if (roomList.get(i).isReserved()) {
-                System.out.println("Cannot update price there is a Reserved room. Remove the reservation first.");
-                return false;
+        for (i = 0; i < this.roomList.size(); i++) {
+            if (this.roomList.get(i).isReserved()) {
+                System.out.println("\nCannot update price there is a Reserved room. Remove the reservation first.\n");
+                return;
             }
         }
 
-        System.out.println("No rooms are Reserved. You can update the price.");
-
+        System.out.println("\nNo rooms are Reserved. You can update the price.\n");
         while (!valid) {
             System.out.println("Enter new price: ");
             price = scanner.nextDouble();
@@ -99,21 +132,70 @@ class Hotel {
             if (price >= 100.0)
                 valid = true;
             else
-                System.out.println("Price must be more than 100. Input a new value!");
+                System.out.println("\nPrice must be more than 100. Input a new value!\n");
         }
 
-        for (i = 0; i < roomList.size(); i++)
-            roomList.get(i).setBasePrice(price);  // Sets all rooms to specified price
+        do {
+            System.out.println("\n\nAre you sure you want to continue with this modification? (Y/N) ");
+            confirm = scanner.nextLine();
+        } while (!confirm.equalsIgnoreCase("Y") && !confirm.equalsIgnoreCase("N"));
 
-        return true;
+        if (confirm.equalsIgnoreCase("Y")) {
+            for (i = 0; i < this.roomList.size(); i++)
+                this.roomList.get(i).setBasePrice(price);  // Sets all rooms to specified price
+            System.out.println("\n All rooms have been set to" + price + " per night.\n");
+        } else
+            System.out.println("\nYou cancelled the modification.\n");
     }
 
-    // Reserves the days that customers reserved. 1 isReserved, 2 isCheckInDate, 3 isCheckOutDate, 4 isOverlap
-    // NEED CHANGES
+    public void cancelReservation() {
+        Scanner scanner = new Scanner(System.in);
+        String guestName, confirm;
+
+        System.out.println("Enter guest name: ");
+        guestName = scanner.nextLine();
+
+        do {
+            System.out.println("\n\nAre you sure you want to continue with this modification? (Y/N) ");
+            confirm = scanner.nextLine();
+        } while (!confirm.equalsIgnoreCase("Y") && !confirm.equalsIgnoreCase("N"));
+
+        if (confirm.equalsIgnoreCase("Y")) {
+            for (Room room : this.roomList) {
+                for (Reservation reservation : room.getReservations()) {
+                    if (reservation.getGuestName().equals(guestName)) {
+                        room.setReservationList(0, reservation.getCheckInDate(), reservation.getCheckOutDate());
+                        room.getReservations().remove(reservation);
+                        room.resetReservation(); // For resetting purposes, if there are no reservation
+                        System.out.println("Successfully removed the reservation by " + guestName);
+                        return;
+                    }
+                }
+            }
+        } else
+            System.out.println("\nYou cancelled the modification.\n");
+    }
+
+    /*
+     * when it is successful setReserved(true)
+     * @reservation
+     */
+    public double calculateEstimatedEarnings() {   // based on reservation ITERATE THROUGH ALL ROOMS
+        for (Room room : this.roomList) {
+            for (Reservation reservation : room.getReservations()) {
+                totalEarnings += reservation.getTotalPrice();
+            }
+        }
+        return totalEarnings;
+    }
+
+
     public boolean addReservation() {
         Scanner scanner = new Scanner(System.in);
+
         String guestName, roomName;
         int checkInDate, checkOutDate;
+
         Room room = null;
         boolean flag = false;
 
@@ -129,8 +211,7 @@ class Hotel {
         System.out.println("Enter room name: (Please input exact name)");
         roomName = scanner.next();
 
-        for (Room rHold : roomList)
-        {
+        for (Room rHold : this.getRooms()) {
             if (rHold.getRoomName().equals(roomName))
                 room = rHold;
         }
@@ -142,46 +223,15 @@ class Hotel {
             if (flag) {
                 room.getReservations().add(newReservation);                 // Adds reservation to reservationList
                 room.setReservationList(1, checkInDate, checkOutDate); // Puts days reserved in the calendar
-                room.setReserved(true);                                     // Sets room to 'reserved' or 'true' for isReserved
+                room.setReserved(true); // Sets room to 'reserved' or 'true' for isReserved
+                return true;
             } else
                 return false;
         }
-        return true; // Set nalang sa main the print statement that it is successful or not
-    }
 
-    // Need to do something about overlaps. Might need a method to check other reservations and make sure the dates are always reserved or reuse addReservation.
-    public boolean cancelReservation() {
-        Scanner scanner = new Scanner(System.in);
-        String guestName;
-
-        System.out.println("Enter guest name: ");
-        guestName = scanner.nextLine();
-
-        for (Room room : roomList) {
-            for (Reservation reservation : room.getReservations()) {
-                if (reservation.getGuestName().equals(guestName)) {
-                    room.getReservations().remove(reservation);
-                    room.setReservationList(0, reservation.getCheckInDate(), reservation.getCheckOutDate());
-                    return true;
-                }
-            }
-        }
+        System.out.println("\nInvalid date!");
         return false;
     }
 
-    /*
-     * when it is successful setReserved(true)
-     * @reservation
-     */
-
-    public double calculateEstimatedEarnings() {   // based on reservation ITERATE THROUGH ALL ROOMS
-        double totalEarnings = 0;
-        for (Room room : roomList) {
-            for (Reservation reservation : room.getReservations()) {
-                totalEarnings += reservation.getTotalPrice();
-            }
-        }
-        return totalEarnings;
-    }
 
 }
