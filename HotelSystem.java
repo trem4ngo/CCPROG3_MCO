@@ -143,15 +143,15 @@ class HotelSystem {
                     System.out.println("\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\n");
                     System.out.println("\n####LOW-LEVEL INFORMATION####\n");
 
-
+                    System.out.println("\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\n");
                     break;
                 case 0:
                     // EXIT
-                    System.out.println("\nExiting Hotel Viewer...");
+                    System.out.println("\nExiting Hotel Viewer...\n");
                     break;
 
                 default:
-                    System.out.println("Invalid choice!");
+                    System.out.println("\nInvalid choice!\n");
                     break;
             }
         } while (choice != 0);
@@ -209,9 +209,13 @@ class HotelSystem {
                 case 6: // Demolish hotel
                     demolishHotel();
                     break;
+                case 0:
+                    // EXIT
+                    System.out.println("\nExiting Hotel Manager...\n");
+                    break;
 
                 default:
-                    System.out.println("Invalid choice!");
+                    System.out.println("\nInvalid choice!\n");
                     break;
             }
         } while (choice != 0);
@@ -219,7 +223,7 @@ class HotelSystem {
 
     public void simulateBooking(Hotel hotel) {
 
-        // Should be able to select a hotel and speciffy check in and check out dates
+        // Should be able to select a hotel and specify check in and check out dates
         // Mechanism to select room (manual from list)
         // Once a reservation is made, status of room should be updated and reservation details should be stored and viewable in viewhotel
 
