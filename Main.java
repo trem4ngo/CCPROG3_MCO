@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Main {
 	public static void main(String[] args) {
 		
-		HotelSystem hotel = new HotelSystem();
+		HotelSystem hotelSystem = new HotelSystem();
 		Scanner scanner = new Scanner(System.in);
 		boolean exitPS = true, exitMS = true; //PS = Program switch, MS = Menu Switch
 		
@@ -23,7 +23,7 @@ public class Main {
 						System.out.println("\n---HOTEL CREATION MENU---\n\n" 
 										  +"Type Hotel Name: ");
 						String hotelName = scanner.nextLine();
-						boolean validHotelName = hotel.constructHotel(hotelName);
+						boolean validHotelName = hotelSystem.constructHotel(hotelName);
 						if(validHotelName)
 							exitMS = false;
 						// Erase the previous text and re-run creation
@@ -31,12 +31,12 @@ public class Main {
 					break;
 				case "2":
 						// View Hotel Menu
-						viewHotel();
+						hotelSystem.viewHotel();
 					}while(exitMS);
 					break;
 				case "3":
 						// Manage Hotel Menu
-						manageHotel();
+						hotelSystem.manageHotel();
 					break;
 				case "4":
 					do{// Booking Menu
