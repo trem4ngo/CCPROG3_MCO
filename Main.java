@@ -8,31 +8,40 @@ public class Main {
 		boolean exitPS = true, exitMS = true; //PS = Program switch, MS = Menu Switch
 		
 		do{
-			System.out.println("\nHOTEL RESERVATION SYSTEM\n\n" 
-						  +"1. Create Hotel\n"
-						  +"2. View Hotel\n"
-						  +"3. Manage Hotel\n"
-						  +"4. Simulate Booking\n"
-						  +"0. Exit\n");
+			System.out.println("\n---HOTEL RESERVATION SYSTEM---\n\n" 
+							  +"[1] Create Hotel\n"
+							  +"[2] View Hotel\n"
+							  +"[3] Manage Hotel\n"
+							  +"[4] Simulate Booking\n"
+							  +"[0] Exit Program\n");
 						  
 			System.out.print("Choose a number: ");
-			int choice = scanner.nextInt();
-			switch(){
+			int mainOptions = scanner.nextInt();
+			switch(mainOptions){
 				case "1":
 					do{// Create Hotel Menu
-					}while();
+						System.out.println("\n---HOTEL CREATION MENU---\n\n" 
+										  +"Type Hotel Name: ");
+						String hotelName = scanner.nextLine();
+						boolean validHotelName = hotel.constructHotel(hotelName);
+						if(validHotelName)
+							exitMS = false;
+						// Erase the previous text and re-run creation
+					}while(exitMS);
 					break;
 				case "2":
-					do{// View Hotel Menu
-					}while();
+						// View Hotel Menu
+						viewHotel();
+					}while(exitMS);
 					break;
 				case "3":
-					do{// Manage Hotel Menu
-					}while();
+						// Manage Hotel Menu
+						manageHotel();
 					break;
 				case "4":
 					do{// Booking Menu
-					}while();
+					
+					}while(exitMS);
 					break;
 				case "0":
 					System.out.println("Program will be closing...");
