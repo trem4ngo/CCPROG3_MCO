@@ -44,6 +44,22 @@ class Hotel {
         return null;
     }
 
+    public void addInitialRoom(int numberOfRooms) { // new
+        int i;
+        String roomName;
+
+        if ((numberOfRooms + this.roomList.size()) > 50) { // If the number of rooms we want to add exceeds 50, don't add
+            System.out.println("Cannot add more than 50 rooms");
+            return;
+        }
+
+        for (i = 0; i < numberOfRooms; i++) {
+            roomName = this.hotelID + String.format("%03d", this.roomNumber++); // So parang 1 (first hotel) then catenate 01, 02, 03, etc.
+            this.roomList.add(new Room(roomName));
+        }
+
+        System.out.println("\n1 Room successfully added. Congrats on creating your Hotel!\n");
+    }
     /*
      * unique naming convention
      * @room
@@ -59,7 +75,7 @@ class Hotel {
         }
 
         do {
-            System.out.println("\n\nAre you sure you want to continue with this modification? (Y/N) ");
+            System.out.println("\nAre you sure you want to continue with this modification? (Y/N) ");
             confirm = scanner.nextLine();
         } while (!confirm.equalsIgnoreCase("Y") && !confirm.equalsIgnoreCase("N"));
 
