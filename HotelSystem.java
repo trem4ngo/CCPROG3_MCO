@@ -35,37 +35,13 @@ class HotelSystem {
         return true;
     }
 
-    public void demolishHotel() {
-        Scanner scanner = new Scanner(System.in);
-        String hotelName, confirm;
-
-        System.out.println("Enter hotel name: ");
-        hotelName = scanner.next();
-
-
-        for (Hotel hotel : hotelList) {
-            if (hotel.getHotelName().equals(hotelName)) {
-                do {
-                    System.out.println("\n\nAre you sure you want to continue with this modification? (Y/N) ");
-                    confirm = scanner.next();
-                } while (!confirm.equalsIgnoreCase("Y") && !confirm.equalsIgnoreCase("N"));
-
-                if (confirm.equalsIgnoreCase("Y")) {
-                    hotelList.remove(hotel);
-                    System.out.println("\nHotel with name '" + hotelName + "' has been demolished!\n");
-                }
-            }
-        }
-        System.out.println("\nHotel with name '" + hotelName + "' has not been demolished.\n");
-    }
-
     public void changeHotelName(Hotel selectedHotel) {  // The user is asked in main what hotel to change already print the list there
         Scanner scanner = new Scanner(System.in);
         String newName;
 
         do {
             System.out.println("Enter new hotel name: ");
-            newName = scanner.nextLine();
+            newName = scanner.next();
 
             if (selectedHotel.getHotelName().equals(newName)) // If equal to previous name
                 System.out.println("Hotel with name '" + newName + "' already exists!");
@@ -111,11 +87,13 @@ class HotelSystem {
     public void viewHotel() {
         Scanner scanner = new Scanner(System.in);
         int choice, choice2, date;
+        boolean hasReservation = false;
         String roomNumber, selReservation;
         Hotel selectedHotel = selectHotel();
 
         do {
             System.out.println("""
+                                        
                     ---HOTEL VIEWER---
 
                     [1] High-Level Information
@@ -128,17 +106,17 @@ class HotelSystem {
             switch (choice) {
                 case 1:
                     // HIGH-LEVEL
-                    System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+                    System.out.println("\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
                     System.out.println("\n!!!!HIGH-LEVEL INFORMATION!!!!\n");
                     System.out.println("Name of the Hotel: " + selectedHotel.getHotelName());
-                    System.out.println("\nTotal No. of Rooms for hotel " + selectedHotel.getHotelName() + " is " + selectedHotel.getNumberOfRooms());
+                    System.out.println("\nTotal No. of Rooms for Hotel -- " + selectedHotel.getHotelName() + " is " + selectedHotel.getNumberOfRooms());
                     System.out.println("\nTotal Estimated Revenue for the Month: " + selectedHotel.calculateEstimatedEarnings());
-                    System.out.println("\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\n");
+                    System.out.println("\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
                     break;
                 case 2:
                     // LOW-LEVEL
                     do {
-                        System.out.println("\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+                        System.out.println("\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
                         System.out.println("\n####LOW-LEVEL INFORMATION####\n");
                         System.out.println("""
                                 ---HOTEL VIEWER---
@@ -148,16 +126,16 @@ class HotelSystem {
                                 [3] Reservation Viewer
                                 [0] Exit to menu
                                 """);
-                        System.out.println("\nChoose a number: ");
+                        System.out.println("Choose a number: ");
                         choice2 = scanner.nextInt();
                         switch (choice2) {
                             case 1: //I. Total number of available and booked rooms for a selected date
                                 do {
                                     System.out.println("\nEnter a given date: (1-31)");
                                     date = scanner.nextInt();
-                                } while (date >= 0 && date <= 31);
-                                System.out.println("Total number of BOOKED rooms for day" + date + ": " + selectedHotel.checkSelectedDay(date));
-                                System.out.println("\nTotal number of AVAILABLE rooms for day" + date + ": " + (selectedHotel.getRoomList().size() - selectedHotel.checkSelectedDay(date)));
+                                } while (date < 0 || date > 31);
+                                System.out.println("Total number of BOOKED rooms for Day#" + date + ": " + selectedHotel.checkSelectedDay(date));
+                                System.out.println("\nTotal number of AVAILABLE rooms for Day#" + date + ": " + (selectedHotel.getRoomList().size() - selectedHotel.checkSelectedDay(date)));
                                 break;
 
                             case 2: // II. Info about selected 'room', room's name, price, and availability (print days)
@@ -165,25 +143,37 @@ class HotelSystem {
                                 System.out.println("List of Rooms: ");  // CAN BE REMOVED just for checking
                                 for (Room room : selectedHotel.getRoomList()) {
                                     if (room != null)
-                                        System.out.println(room.getRoomName() + ", ");
+                                        System.out.println(room.getRoomName());
                                 }
 
-                                System.out.println("Enter a room number: ");
-                                roomNumber = scanner.nextLine();
+                                System.out.println("\nEnter a room number: ");
+                                roomNumber = scanner.next();
 
                                 Room selectedRoom = selectedHotel.getRoom(roomNumber);
 
                                 if (selectedRoom != null) {
                                     System.out.println("\nRoom Name: " + selectedRoom.getRoomName());
                                     System.out.println("\nRoom Price: " + selectedRoom.getBasePrice());
-                                    System.out.println("\nRoom Availability Calendar: \n");
+                                    System.out.println("\nRoom Availability Calendar: ");
                                     selectedRoom.displayCalendar();
-                                    System.out.println("\n1 - isReserved, 2 - isCheckInDate, 3 - isCheckOutDate, 4 - isOverlap, 0 isNotReserved\n");
+                                    System.out.println("\n\n1 - isReserved, 2 - isCheckInDate, 3 - isCheckOutDate, 4 - isOverlap, 0 isNotReserved");
                                 } else
-                                    System.out.println("\nRoom not found! Please input a proper room name.\n");
+                                    System.out.println("\nRoom not found! Please input a proper room name.");
                                 break;
 
                             case 3: // Select a reservation among all the rooms and then show their info
+
+                                for (Room r : selectedHotel.getRoomList()) {
+                                    if (!r.getReservations().isEmpty()) {
+                                        hasReservation = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!hasReservation){
+                                    System.out.println("\nNo reservations found!");
+                                    break;
+                                } // Exits out if there are no reservation
 
                                 System.out.println("List of Reservations: ");  // CAN BE REMOVED just for checking
                                 for (Room room : selectedHotel.getRoomList())
@@ -191,38 +181,36 @@ class HotelSystem {
                                         System.out.println("\nGuest name: " + reservation.getGuestName());
                                     }
 
-                                System.out.println("\nEnter a Guest Name to see the reservation Info': ");
-                                selReservation = scanner.nextLine();
+                                System.out.println("\nEnter a Guest Name to see the reservation Info: ");
+                                selReservation = scanner.next();
 
                                 Reservation selectedReservation = null;
 
-                                 for (Room room : selectedHotel.getRoomList())
-                                     for (Reservation reservation : room.getReservations()) {
+                                for (Room room : selectedHotel.getRoomList())
+                                    for (Reservation reservation : room.getReservations()) {
                                         if (reservation.getGuestName().equals(selReservation)) {
                                             selectedReservation = reservation;
                                             break;
                                         }
                                     }
 
-                                 if (selectedReservation != null) {
-                                     System.out.println("\nGuest Name: " + selectedReservation.getGuestName());
-                                     System.out.println("\nCheck-In Date: " + selectedReservation.getCheckInDate());
-                                     System.out.println("\nCheck-Out Date: " + selectedReservation.getCheckOutDate());
-                                     System.out.println("\nRoom Name: " + selectedReservation.getRoom().getRoomName());
-                                     System.out.println(selectedReservation.getPriceBreakdown());
-                                 }
-                                 else
-                                     System.out.println("\nReservation not found! Please input a proper Guest Name.\n");
+                                if (selectedReservation != null) {
+                                    System.out.println("\nGuest Name: " + selectedReservation.getGuestName());
+                                    System.out.println("\nCheck-In Date: " + selectedReservation.getCheckInDate());
+                                    System.out.println("\nCheck-Out Date: " + selectedReservation.getCheckOutDate());
+                                    System.out.println("\nRoom Name: " + selectedReservation.getRoom().getRoomName());
+                                    System.out.println(selectedReservation.getPriceBreakdown());
+                                } else
+                                    System.out.println("\nReservation not found! Please input a proper Guest Name.");
                                 break;
                             case 0: // Exit to go back to main loop
-                                System.out.println("\nExiting Low-Level Information Viewer...\n");
+                                System.out.println("\nExiting Low-Level Information Viewer...");
                                 break;
 
                             default:
-                                System.out.println("\nInvalid choice!\n");
+                                System.out.println("\nInvalid choice!");
                                 break;
                         }
-                        System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\n");
                     } while (choice2 != 0);
                     break;
 
@@ -232,7 +220,7 @@ class HotelSystem {
                     break;
 
                 default:
-                    System.out.println("\nInvalid choice!\n");
+                    System.out.println("\nInvalid choice!");
                     break;
             }
         } while (choice != 0);
@@ -244,21 +232,23 @@ class HotelSystem {
     public void manageHotel() {
         Scanner scanner = new Scanner(System.in);
         int choice, numberOfRooms;
-        boolean result;
+        boolean result, exit = true;
         Hotel selectedHotel = selectHotel();
 
         do {
-            System.out.println("\nCurrent Hotel: " + selectedHotel.getHotelName() + "\n");
+            System.out.println("\nCurrent Hotel: " + selectedHotel.getHotelName());
             System.out.println("""
-                ---HOTEL MANAGER---
+                                    
+                    ---HOTEL MANAGER---
 
-                [1] Change Name of Hotel
-                [2] Add Room
-                [3] Update Room's Base Price
-                [4] Remove Reservation
-                [5] Demolish Hotel
-                [0] Exit to menu
-                """);
+                    [1] Change Name of Hotel
+                    [2] Add Room(s)
+                    [3] Remove Room
+                    [4] Update Room Base Price
+                    [5] Remove Reservation
+                    [6] Demolish Hotel
+                    [0] Exit to menu
+                    """);
 
             System.out.println("Choose a number: ");
             choice = scanner.nextInt();
@@ -288,19 +278,23 @@ class HotelSystem {
                     break;
 
                 case 6: // Demolish hotel
-                    demolishHotel();
+                    if (selectedHotel.demolishHotel()) {
+                        hotelList.remove(selectedHotel);
+                        exit = false;
+                    }
                     break;
 
                 case 0:
                     // EXIT
                     System.out.println("\nExiting Hotel Manager...\n");
+                    exit = false;
                     break;
 
                 default:
-                    System.out.println("\nInvalid choice!\n");
+                    System.out.println("\nInvalid choice!");
                     break;
             }
-        } while (choice != 0);
+        } while (exit);
     }
 
     public void simulateBooking(Hotel hotel) {
@@ -310,7 +304,5 @@ class HotelSystem {
         // Once a reservation is made, status of room should be updated and reservation details should be stored and viewable in viewhotel
 
     }
-
-
 
 }
