@@ -58,13 +58,17 @@ class Reservation {
         return this.room;
     }
 
+    /**
+     * Gets the total price of the reservation
+     * @return the total price (double)
+     */
     public double getTotalPrice() {
         int numOfDays = this.checkOutDate - this.checkInDate + 1;
         return this.totalPrice = numOfDays * this.room.getBasePrice();
     }
 
     /**
-     * A method calculates the price of the reservations
+     * A method that calculates the pricing of the reservation
      */
     /*
      * tostring method where we just show the number of days and multiply to base price to show the totalprice
