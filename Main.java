@@ -1,58 +1,62 @@
 import java.util.Scanner;
 
 public class Main {
-	public static void main(String[] args) {
-		
-		HotelSystem hotelSystem = new HotelSystem();
-		Scanner scanner = new Scanner(System.in);
-		boolean exitPS = true, exitMS = true; //PS = Program switch, MS = Menu Switch
-		
-		do{
-			System.out.println("\n---HOTEL RESERVATION SYSTEM---\n\n" 
-							  +"[1] Create Hotel\n"
-							  +"[2] View Hotel\n"
-							  +"[3] Manage Hotel\n"
-							  +"[4] Simulate Booking\n"
-							  +"[0] Exit Program\n");
-						  
-			System.out.print("Choose a number: ");
-			int mainOptions = scanner.nextInt();
-			switch(mainOptions){
-				case "1":
-					do{// Create Hotel Menu
-						System.out.println("\n---HOTEL CREATION MENU---\n\n" 
-										  +"Type Hotel Name: ");
-						String hotelName = scanner.nextLine();
-						boolean validHotelName = hotelSystem.constructHotel(hotelName);
-						if(validHotelName)
-							exitMS = false;
-						// Erase the previous text and re-run creation
-					}while(exitMS);
-					break;
-				case "2":
-						// View Hotel Menu
-						hotelSystem.viewHotel();
-					}while(exitMS);
-					break;
-				case "3":
-						// Manage Hotel Menu
-						hotelSystem.manageHotel();
-					break;
-				case "4":
-					do{// Booking Menu
-					
-					}while(exitMS);
-					break;
-				case "0":
-					System.out.println("Program will be closing...");
-					exitPS = false;// Exits the program
-					break;
-				default:
-					System.out.println("Invalid input");
-					break;
-			}
-		}while(exitPS);
-		
-	}
+    public static void main(String[] args) {
 
+        HotelSystem hotelSystem = new HotelSystem();
+        String hotelName;
+        Scanner scanner = new Scanner(System.in);
+        boolean exitPS = true, exitMS = true; //PS = Program switch, MS = Menu Switch
+
+        do {
+            System.out.println("""
+
+                    ---HOTEL RESERVATION SYSTEM---
+
+                    [1] Create Hotel
+                    [2] View Hotel
+                    [3] Manage Hotel
+                    [4] Simulate Booking
+                    [0] Exit Program
+                    """);
+
+            System.out.print("Choose a number: ");
+            int mainOptions = scanner.nextInt();
+            switch (mainOptions) {
+                case 1:
+                    // Create Hotel Menu
+                    System.out.println("""
+                            
+                            ---HOTEL CREATION MENU---
+
+                            Type Hotel Name:""");
+                    hotelName = scanner.next();
+                    hotelSystem.constructHotel(hotelName);
+                    break;
+                case 2:
+                    // View Hotel Menu
+                    if (hotelSystem.getHotelList().isEmpty())
+                        System.out.println("\nNo Hotel has been created yet.");
+                    else
+                        hotelSystem.viewHotel();
+                    break;
+                case 3:
+                    // Manage Hotel Menu
+                    if (hotelSystem.getHotelList().isEmpty())
+                        System.out.println("No Hotel has been created yet.");
+                    else
+                        hotelSystem.manageHotel();
+                    break;
+
+                case 0:
+                    System.out.println("Program will be closing...");
+                    exitPS = false;// Exits the program
+                    break;
+                default:
+                    System.out.println("Invalid input");
+                    break;
+            }
+        } while (exitPS);
+
+    }
 }
