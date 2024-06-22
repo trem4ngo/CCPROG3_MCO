@@ -68,7 +68,8 @@ class Reservation {
     }
 
     /**
-     * A method that calculates the pricing of the reservation
+     * Gets the total price breakdown of the reservation
+     * @return a string of number of days, base price, and total price
      */
     /*
      * tostring method where we just show the number of days and multiply to base price to show the totalprice
