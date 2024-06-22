@@ -3,17 +3,17 @@ import java.util.ArrayList;
 class Room {
 
     private final String roomName;
-    private ArrayList<Reservation> reservationList; // Stores the reservation list -- static is used to be used in other classes
+    private ArrayList<Reservation> reservationList; // Stores the reservation list
     private double basePrice;
     private boolean isReserved;                     // Just signifies if just one day is reserved for ease
-    private int[] daysReserved;                     // 1 isReserved, 2 isCheckInDate, 3 isCheckOutDate, 4 isOverlap, 0 isNotReserved
+    private int[] Calendar;         //new           // 1 isReserved, 2 isCheckInDate, 3 isCheckOutDate, 4 isOverlap, 0 isNotReserved
 
     public Room(String roomName) {
         this.roomName = roomName;
         this.basePrice = 1299.0;
         this.isReserved = false;
         reservationList = new ArrayList<>();
-        this.daysReserved = new int[31];
+        this.Calendar = new int[31];
     }
 
     public ArrayList<Reservation> getReservations() {
@@ -24,35 +24,8 @@ class Room {
         return this.roomName;
     }
 
-    public void setReservationList(int rTag, int checkInDate, int checkOutDate) {  // Sets all to 0 not reserved
-        int i;
-
-        if (rTag == 1) // Add Reservation
-        {
-            for (i = checkInDate - 1; i < checkOutDate; i++) {
-                if (i == checkInDate - 1)
-                    this.daysReserved[i] = 2;
-                else if (i == checkOutDate - 1)
-                    this.daysReserved[i] = 3;
-                else if (this.daysReserved[i] == 3 || this.daysReserved[i] == 2)
-                    this.daysReserved[i] = 4;
-                else
-                    this.daysReserved[i] = 1;
-            }
-        }
-
-        if (rTag == 0) // Cancel Reservation
-        {
-            for (i = checkInDate - 1; i < checkOutDate; i++) {
-                if (this.daysReserved[i] != 4)
-                    this.daysReserved[i] = 0;
-            }
-
-        }
-    }
-
-    public int[] getDaysReserved() {
-        return daysReserved;
+    public int[] getCalendar() { // Array for the calendar
+        return Calendar;
     }
 
     public double getBasePrice() {
@@ -71,19 +44,58 @@ class Room {
         this.isReserved = reserved;
     }
 
-    public int countDaysReserved() {
+    public void displayCalendar() // new
+    {
+        int i;
+
+        for (i = 0; i < this.Calendar.length; i++)
+        {
+            System.out.println(Calendar[i] + " ");
+            if ((i + 1) % 7 == 0)
+                System.out.println("\n");
+        }
+        System.out.println("\n");
+    }
+
+    public void setReservationList(int rTag, int checkInDate, int checkOutDate) {  // Sets all to 0 not reserved
+        int i;
+
+        if (rTag == 1) // Add Reservation
+        {
+            for (i = checkInDate - 1; i < checkOutDate; i++) {
+                if (i == checkInDate - 1)
+                    this.Calendar[i] = 2;
+                else if (i == checkOutDate - 1)
+                    this.Calendar[i] = 3;
+                else if (this.Calendar[i] == 3 || this.Calendar[i] == 2)
+                    this.Calendar[i] = 4;
+                else
+                    this.Calendar[i] = 1;
+            }
+        }
+
+        if (rTag == 0) // Cancel Reservation
+        {
+            for (i = checkInDate - 1; i < checkOutDate; i++) {
+                if (this.Calendar[i] != 4)
+                    this.Calendar[i] = 0;
+            }
+
+        }
+    }
+
+    public int countCalendar() {
         int count = 0;
-        for (Reservation reservation : reservationList) {
+        for (Reservation reservation : this.reservationList) {
             count += reservation.getCheckOutDate() - reservation.getCheckInDate() + 1;
         }
         return count;
     }
 
-    public void checkReservation () { // Check days reserved and if they are all 0, set reserved to false again
-        if (this.countDaysReserved() == 0) {
+    public void resetReservation() { // Check days reserved and if they are all 0, set reserved to false again
+        if (this.countCalendar() == 0) {
             this.isReserved = false;
         }
     }
-
 
 }
