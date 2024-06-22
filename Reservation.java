@@ -1,5 +1,8 @@
 import java.util.ArrayList;
-
+/**
+ * This Reservation class represents the details of the reservation in a hotel.
+ * It has details like the guest name, check in date, check out date, total price, etc.
+ */    
 class Reservation {
 
     private String guestName;
@@ -8,6 +11,13 @@ class Reservation {
     private Room room;
     private double totalPrice;
 
+    /**
+     * Constructor for the reservation
+     * @param guestName name of the guest reserving
+     * @param checkInDate the date when the guest will check in
+     * @param checkOutDate the date when the guest will check out
+     * @param room the room that the guest will stay at
+     */
     public Reservation(String guestName, int checkInDate, int checkOutDate, Room room) {
         this.guestName = guestName;
         this.checkInDate = checkInDate;
@@ -16,18 +26,34 @@ class Reservation {
         this.totalPrice = 0;
     }
 
+    /**
+     * Gets the name of the guest
+     * @return the guest name (String)
+     */
     public String getGuestName() {
         return this.guestName;
     }
 
+    /**
+     * Gets the check out date of the reservation
+     * @return the check out date (int)
+     */
     public int getCheckInDate() {
         return this.checkInDate;
     }
 
+    /**
+     * Gets the check out date of the reservation
+     * @return the check out date (int)
+     */
     public int getCheckOutDate() {
         return this.checkOutDate;
     }
 
+    /**
+     * Gets the room details of the reservation
+     * @return the room details (Room)
+     */
     public Room getRoom() {
         return this.room;
     }
@@ -37,7 +63,9 @@ class Reservation {
         return this.totalPrice = numOfDays * this.room.getBasePrice();
     }
 
-
+    /**
+     * A method calculates the price of the reservations
+     */
     /*
      * tostring method where we just show the number of days and multiply to base price to show the totalprice
      */
@@ -47,6 +75,11 @@ class Reservation {
         return "Total Price Breakdown: " + "You reserved for a total of " + numOfDays + " days. Days * $" + basePrice + " per night = $" + this.totalPrice;
     }
 
+    /**
+     * A method that checks if a reservation is valid
+     * @param checkInDate the date when the guest will check in
+     * @param checkOutDate the date when the guest will check out
+     */
     // Condition checking to verify if new reservation is possible. True if reservation is valid and false if not.
     public boolean checkReservation(int checkInDate, int checkOutDate) {
         int i;
