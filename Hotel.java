@@ -26,12 +26,22 @@ class Hotel {
         this.hotelName = hotelName;
     }
 
-    public ArrayList<Room> getRooms() {
+    public ArrayList<Room> getRoomList() { // NEW NAME
         return roomList;
     }
 
     public int getNumberOfRooms() {
         return roomList.size();
+    }
+
+    //NEW
+    public Room getRoom(String roomNumber) {
+        for (Room room : this.roomList) {
+            if (room.getRoomName().equals(roomNumber)) {
+                return room;
+            }
+        }
+        return null;
     }
 
     /*
@@ -58,8 +68,7 @@ class Hotel {
                 roomName = this.hotelID + String.format("%03d", this.roomNumber++); // So parang 1 (first hotel) then catenate 01, 02, 03, etc.
                 this.roomList.add(new Room(roomName));
             }
-        }
-        else
+        } else
             return true; // The case where the user inputs N to end the loop in System
 
         System.out.println("\nRoom(s) successfully added.\n");
@@ -75,7 +84,7 @@ class Hotel {
         int i;
         String roomName, confirm;
 
-        System.out.println("List of rooms: \n");  // CAN BE REMOVED
+        System.out.println("List of rooms: \n");  // CAN BE REMOVED just for checking
         for (Room room : this.roomList) {
             System.out.println(room.getRoomName() + "\n");
         }
@@ -96,12 +105,10 @@ class Hotel {
                     if (confirm.equalsIgnoreCase("Y")) {
                         this.roomList.remove(i);
                         System.out.println("\nRoom is successfully removed.\n");
-                    }
-                    else
+                    } else
                         System.out.println("\nYou cancelled the modification.\n");
                 }
-            }
-            else
+            } else
                 System.out.println("\nRoom does not exist.\n");
         }
     }
@@ -211,9 +218,9 @@ class Hotel {
         System.out.println("Enter room name: (Please input exact name)");
         roomName = scanner.next();
 
-        for (Room rHold : this.getRooms()) {
-            if (rHold.getRoomName().equals(roomName))
-                room = rHold;
+        for (Room r : this.getRoomList()) {
+            if (r.getRoomName().equals(roomName))
+                room = r;
         }
 
         if (room != null) {
@@ -231,6 +238,19 @@ class Hotel {
 
         System.out.println("\nInvalid date!");
         return false;
+    }
+
+    // NEW -- Checks and returns the number of rooms that have been reserved on a selected date
+    public int checkSelectedDay(int day) {
+        int count = 0;
+        for (Room room : this.roomList) {
+            for (Reservation reservation : room.getReservations()) {
+                if (day >= reservation.getCheckInDate() && day <= reservation.getCheckOutDate()) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
 
