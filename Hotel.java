@@ -60,6 +60,7 @@ class Hotel {
 
         System.out.println("\n1 Room successfully added. Congrats on creating your Hotel!\n");
     }
+
     /*
      * unique naming convention
      * @room
@@ -87,7 +88,7 @@ class Hotel {
         } else
             return true; // The case where the user inputs N to end the loop in System
 
-        System.out.println("\nRoom(s) successfully added.\n");
+        System.out.println("Room(s) successfully added.\n");
         return true;
     }
 
@@ -99,6 +100,11 @@ class Hotel {
         Scanner scanner = new Scanner(System.in);
         int i;
         String roomName, confirm;
+
+        if (this.roomList.size() == 1) {
+            System.out.println("\nCannot remove last room.");
+            return;
+        }
 
         System.out.println("List of rooms: \n");  // CAN BE REMOVED just for checking
         for (Room room : this.roomList) {
@@ -114,7 +120,7 @@ class Hotel {
                     System.out.println("\nCannot remove room that is Reserved/Reserved.\n");
                 else {
                     do {
-                        System.out.println("\n\nAre you sure you want to continue with this modification? (Y/N) ");
+                        System.out.println("\nAre you sure you want to continue with this modification? (Y/N) ");
                         confirm = scanner.nextLine();
                     } while (!confirm.equalsIgnoreCase("Y") && !confirm.equalsIgnoreCase("N"));
 
@@ -159,7 +165,7 @@ class Hotel {
         }
 
         do {
-            System.out.println("\n\nAre you sure you want to continue with this modification? (Y/N) ");
+            System.out.println("\nAre you sure you want to continue with this modification? (Y/N) ");
             confirm = scanner.nextLine();
         } while (!confirm.equalsIgnoreCase("Y") && !confirm.equalsIgnoreCase("N"));
 
@@ -179,7 +185,7 @@ class Hotel {
         guestName = scanner.nextLine();
 
         do {
-            System.out.println("\n\nAre you sure you want to continue with this modification? (Y/N) ");
+            System.out.println("\nAre you sure you want to continue with this modification? (Y/N) ");
             confirm = scanner.nextLine();
         } while (!confirm.equalsIgnoreCase("Y") && !confirm.equalsIgnoreCase("N"));
 
@@ -267,6 +273,24 @@ class Hotel {
             }
         }
         return count;
+    }
+
+    public boolean demolishHotel() { // new
+        Scanner scanner = new Scanner(System.in);
+        String confirm;
+
+        do {
+            System.out.println("\nAre you sure you want to demolish the hotel '" + this.getHotelName() + "'? (Y/N) ");
+            confirm = scanner.next();
+        } while (!confirm.equalsIgnoreCase("Y") && !confirm.equalsIgnoreCase("N"));
+
+        if (confirm.equalsIgnoreCase("Y")) {
+            System.out.println("\nHotel '" + this.getHotelName() + "' has been demolished!");
+            return true;
+        } else {
+            System.out.println("\nHotel '" + this.getHotelName() + "' has not been demolished.");
+            return false;
+        }
     }
 
 
