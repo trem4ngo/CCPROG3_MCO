@@ -47,14 +47,12 @@ class Room {
     public void displayCalendar() // new
     {
         int i;
-
         for (i = 0; i < this.Calendar.length; i++)
         {
-            System.out.println(Calendar[i] + " ");
+            System.out.print(this.Calendar[i] + " ");
             if ((i + 1) % 7 == 0)
-                System.out.println("\n");
+                System.out.println();
         }
-        System.out.println("\n");
     }
 
     public void setReservationList(int rTag, int checkInDate, int checkOutDate) {  // Sets all to 0 not reserved
