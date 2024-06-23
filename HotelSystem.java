@@ -1,32 +1,25 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * This class handles the hotels and the details of said hotels.
- * It can construct a hotel, change its name, view information, and many more.
- */    
+
 public class HotelSystem {
 
     private ArrayList<Hotel> hotelList;
 
-    /**
-     * Initializes an arraylist of hotels.
+    /*
+     * Initialize arraylist for hotels
      */
     public HotelSystem() {
         hotelList = new ArrayList<>();
     }
 
-    /**
-     * Gets the list of hotels.
-     * @return the list of hotels.
-     */    
     public ArrayList<Hotel> getHotelList() {
         return hotelList;
     }
 
-    /**
-     * Constructs a hotel and it makes sure that the hotel has a minimum of one room and a uniqe name.
-     * @param hotelName the name of the hotel.
+    /*
+     * When it is constructed it should have a minimum of one room, the checking of other same names
+     * @hotel
      */
     public void constructHotel(String hotelName) {
         for (Hotel hotel : hotelList) {
@@ -41,10 +34,6 @@ public class HotelSystem {
         newHotel.addInitialRoom(1);        // Adds 1 room when creating a hotel
     }
 
-    /**
-     * Changes the name of a hotel and checks if the name is unique.
-     * @param selectedHotel the hotel that the name will be changed.
-     */    
     public void changeHotelName(Hotel selectedHotel) {  // The user is asked in main what hotel to change already print the list there
         Scanner scanner = new Scanner(System.in);
         String newName;
@@ -65,15 +54,13 @@ public class HotelSystem {
                 }
         } while (newName == null);
 
-
-        selectedHotel.setHotelName(newName);
-        System.out.println("\nHotel name has been changed to '" + newName + "'!\n");
+        if (selectedHotel.confirmAction())
+        {
+            selectedHotel.setHotelName(newName);
+            System.out.println("\nHotel name has been changed to '" + newName + "'!\n");
+        }
     }
 
-    /**
-     * A menu where the user can select a hotel from a list of hotel.
-     * @return the selected hotel.
-     */    
     public Hotel selectHotel() {
         Scanner scanner = new Scanner(System.in);
         int choice, i;
@@ -98,14 +85,9 @@ public class HotelSystem {
         return selectedHotel;
     }
 
-    /**
-     * Views the high-level and low-level information of a hotel.
-     */    
     public void viewHotel() {
         Scanner scanner = new Scanner(System.in);
         int choice, choice2, date;
-        boolean hasReservation = false;
-        String roomNumber, selReservation;
         Hotel selectedHotel = selectHotel();
 
         do {
@@ -152,7 +134,7 @@ public class HotelSystem {
                                     date = scanner.nextInt();
                                 } while (date < 0 || date > 31);
                                 System.out.println("Total number of BOOKED rooms for Day#" + date + ": " + selectedHotel.checkSelectedDay(date));
-                                System.out.println("\nTotal number of AVAILABLE rooms for Day#" + date + ": " + (selectedHotel.getRoomList().size() - selectedHotel.checkSelectedDay(date)));
+                                System.out.println("\nTotal number of AVAILABLE rooms for Day#" + date + ": " + (selectedHotel.getTotalReservations() - selectedHotel.checkSelectedDay(date)));
                                 break;
 
                             case 2: // II. Info about selected 'room', room's name, price, and availability (print days)
@@ -170,7 +152,7 @@ public class HotelSystem {
 
                             case 3: // Select a reservation among all the rooms and then show their info
 
-                                if (selectedHotel.hasReservation()){
+                                if (!selectedHotel.hasReservation()){
                                     System.out.println("\nNo reservations found!");
                                     break;
                                 } // Exits out if there are no reservation
@@ -209,9 +191,9 @@ public class HotelSystem {
         } while (choice != 0);
     }
 
-    /**
-     * A menu and system where users can change details about a hotel.
-     */    
+    /*
+    Pretty much done with this one
+    */
     public void manageHotel() {
         Scanner scanner = new Scanner(System.in);
         int choice, numberOfRooms;
@@ -280,18 +262,11 @@ public class HotelSystem {
         } while (exit);
     }
 
-    /**
-     * A system that simulates a booking.
-     */    
     public void simulateBooking() {
         Scanner scanner = new Scanner(System.in);
         Hotel selectedHotel = selectHotel();
 
         selectedHotel.addReservation();
-        // Should be able to select a hotel and specify check in and check out dates
-        // Mechanism to select room (manual from list)
-        // Once a reservation is made, status of room should be updated and reservation details should be stored and viewable in viewhotel
-
     }
 
 }
