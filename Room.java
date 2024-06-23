@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * This class has details about a room of the hotel.
  * Details such as room name, base price, reservation list, reservation status, and a reservation calendar.
  */
-class Room {
+public class Room {
 
     private final String roomName;
     private ArrayList<Reservation> reservationList; // Stores the reservation list
