@@ -1,366 +1,272 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * This class has the details of the hotel and handles the rooms and reservations of the hotel. 
- * The Hotel class contains details such as hotel ID, hotel name, room list, room number, and total earnings.
- */    
-public class Hotel {
 
-    private final int hotelID;
-    private String hotelName;
-    private ArrayList<Room> roomList;
-    private int roomNumber;
-    private double totalEarnings;
+public class HotelSystem {
 
-    /**
-     * Constructs a hotel and initializes a room and its total earnings.
-     * @param hotelName the name of the hotel.
-     * @param hotelID the id of the hotel.
-     */    
-    public Hotel(String hotelName, int hotelID) {
-        this.hotelName = hotelName;
-        this.hotelID = hotelID;
-        roomList = new ArrayList<>();
-        this.roomNumber = 1;                // When we create hotel, room number would be 1
-        this.totalEarnings = 0;
+    private ArrayList<Hotel> hotelList;
+
+    /*
+     * Initialize arraylist for hotels
+     */
+    public HotelSystem() {
+        hotelList = new ArrayList<>();
     }
 
-    /**
-     * Gets the name of the hotel.
-     * @return the hotel's name.
-     */    
-    public String getHotelName() {
-        return hotelName;
+    public ArrayList<Hotel> getHotelList() {
+        return hotelList;
     }
 
-    /**
-     * Sets the name of the hotel.
-     * @param hotelName name of the hotel.
-     */    
-    public void setHotelName(String hotelName) {
-        this.hotelName = hotelName;
+    /*
+     * When it is constructed it should have a minimum of one room, the checking of other same names
+     * @hotel
+     */
+    public void constructHotel(String hotelName) {
+        for (Hotel hotel : hotelList) {
+            if (hotel.getHotelName().equals(hotelName)) {
+                System.out.println("Hotel with name '" + hotelName + "' already exists!");
+                return;
+            }
+        }
+
+        Hotel newHotel = new Hotel(hotelName, hotelList.size() + 1);
+        hotelList.add(newHotel);
+        newHotel.addInitialRoom(1);        // Adds 1 room when creating a hotel
     }
 
-    /**
-     * Gets the list of rooms of the hotel.
-     * @return the list of rooms.
-     */    
-    public ArrayList<Room> getRoomList() { // NEW NAME
-        return roomList;
+    public void changeHotelName(Hotel selectedHotel) {  // The user is asked in main what hotel to change already print the list there
+        Scanner scanner = new Scanner(System.in);
+        String newName;
+
+        do {
+            System.out.println("Enter new hotel name: ");
+            newName = scanner.next();
+
+            if (selectedHotel.getHotelName().equals(newName)) // If equal to previous name
+                System.out.println("Hotel with name '" + newName + "' already exists!");
+            else
+                for (Hotel h : hotelList)                      // Compares to other hotels
+                {
+                    if (h.getHotelName().equals(newName)) {
+                        System.out.println("Hotel with name '" + newName + "' already exists!");
+                        newName = null;
+                    }
+                }
+        } while (newName == null);
+
+        if (selectedHotel.confirmAction())
+        {
+            selectedHotel.setHotelName(newName);
+            System.out.println("\nHotel name has been changed to '" + newName + "'!\n");
+        }
     }
 
-    /**
-     * Gets the number of rooms of the hotel.
-     * @return the number of rooms.
-     */    
-    public int getNumberOfRooms() {
-        return roomList.size();
-    }
-
-    /**
-     * A menu that allows the user to choose what reservation to cancel.
-     * @return the selected reservation to be cancelled.
-     */    
-    public Reservation selectReservation() { // new
+    public Hotel selectHotel() {
         Scanner scanner = new Scanner(System.in);
         int choice, i;
-        Reservation selectedReservation = null;
+        Hotel selectedHotel = null;
 
-        // List of Reservations on all rooms for cancelling
+        // List of hotels
         do {
-            System.out.println("\nChoose a Reservation: ");
-            for (i = 0; i < this.roomList.size(); i++)
-                for (Reservation reservation : this.roomList.get(i).getReservations())
-                    System.out.println("[" + (i + 1) + "] Guest Name: " + reservation.getGuestName());
+            System.out.println("\nChoose a Hotel: ");
+            for (i = 0; i < hotelList.size(); i++)
+                System.out.println("[" + (i + 1) + "] " + hotelList.get(i).getHotelName());
 
             System.out.println("Choose a number from the List: ");
             choice = scanner.nextInt();
 
-            if (choice >= 1 && choice <= this.roomList.size()) {
-                for (Reservation reservation : this.roomList.get(choice - 1).getReservations()) // Iterates to index (choice) in roomList and gets specific reservation
-                    selectedReservation = reservation;
-            } else
-                System.out.println("Invalid choice!");
-        } while (selectedReservation == null);
+            if (choice >= 1 && choice <= hotelList.size())
+                selectedHotel = hotelList.get(choice - 1);
+            else
+                System.out.println("Invalid choice!"); // selectedHotel stays null
 
-        return selectedReservation;
+        } while (selectedHotel == null);
+
+        return selectedHotel;
     }
 
-    /**
-     * Confirms if the hotel will be demolished.
-     * @return a true if the hotel got demolished, false otherwise.
-     */    
-    public boolean demolishHotel() { // new
+    public void viewHotel() {
         Scanner scanner = new Scanner(System.in);
-        String confirm;
+        int choice, choice2, date;
+        Hotel selectedHotel = selectHotel();
 
         do {
-            System.out.println("\nAre you sure you want to demolish the hotel '" + this.getHotelName() + "'? (Y/N) ");
-            confirm = scanner.next();
-        } while (!confirm.equalsIgnoreCase("Y") && !confirm.equalsIgnoreCase("N"));
+            System.out.println("""
+                                       \s
+                    ---HOTEL VIEWER---
 
-        if (confirm.equalsIgnoreCase("Y")) {
-            System.out.println("\nHotel '" + this.getHotelName() + "' has been demolished!");
-            return true;
-        } else {
-            System.out.println("\nHotel '" + this.getHotelName() + "' has not been demolished.");
-            return false;
-        }
-    }
+                    [1] High-Level Information
+                    [2] Low-Level Information
+                    [0] Exit to menu
+                   \s""");
 
-    /**
-     * Asks the user to select a room in the hotel.
-     * @return the room selected by the user.
-     */    
-    public Room selectRoom() { // new
-        Scanner scanner = new Scanner(System.in);
-        int choice, i;
-        Room selectedRoom = null;
+            System.out.println("Choose a number: ");
+            choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    // HIGH-LEVEL
+                    System.out.println("\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+                    System.out.println("\n!!!!HIGH-LEVEL INFORMATION!!!!\n");
+                    System.out.println("Name of the Hotel: " + selectedHotel.getHotelName());
+                    System.out.println("\nTotal No. of Rooms for Hotel -- " + selectedHotel.getHotelName() + " is " + selectedHotel.getNumberOfRooms());
+                    System.out.println("\nTotal Estimated Revenue for the Month: " + selectedHotel.calculateEstimatedEarnings());
+                    System.out.println("\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+                    break;
+                case 2:
+                    // LOW-LEVEL
+                    do {
+                        System.out.println("\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+                        System.out.println("\n####LOW-LEVEL INFORMATION####\n");
+                        System.out.println("""
+                                ---HOTEL VIEWER---
 
-        System.out.println("Select a room:");
-        for (i = 0; i < this.roomList.size(); i++) {
-            System.out.println("[" + (i + 1) + "] " + this.roomList.get(i).getRoomName());
-        }
+                                [1] Availability Checker (Day)
+                                [2] Room Viewer
+                                [3] Reservation Viewer
+                                [0] Exit to menu
+                                """);
+                        System.out.println("Choose a number: ");
+                        choice2 = scanner.nextInt();
+                        switch (choice2) {
+                            case 1: //I. Total number of available and booked rooms for a selected date
+                                do {
+                                    System.out.println("\nEnter a given date: (1-31)");
+                                    date = scanner.nextInt();
+                                } while (date < 0 || date > 31);
+                                System.out.println("Total number of BOOKED rooms for Day#" + date + ": " + selectedHotel.checkSelectedDay(date));
+                                System.out.println("\nTotal number of AVAILABLE rooms for Day#" + date + ": " + (selectedHotel.getTotalReservations() - selectedHotel.checkSelectedDay(date)));
+                                break;
 
-        System.out.println("Enter the number of the room you want to select: ");
-        choice = scanner.nextInt();
+                            case 2: // II. Info about selected 'room', room's name, price, and availability (print days)
+                                Room selectedRoom = selectedHotel.selectRoom();
 
-        if (choice >= 1 && choice <= this.roomList.size()) {
-            selectedRoom = this.roomList.get(choice - 1);
-        } else {
-            System.out.println("Invalid room selection.");
-        }
+                                if (selectedRoom != null) {
+                                    System.out.println("\nRoom Name: " + selectedRoom.getRoomName());
+                                    System.out.println("\nRoom Price: " + selectedRoom.getBasePrice() + " Per Night.");
+                                    System.out.println("\nRoom Availability Calendar: ");
+                                    selectedRoom.displayCalendar();
+                                    System.out.println("\n\n1 - isReserved, 2 - isCheckInDate, 3 - isCheckOutDate, 4 - isOverlap, 0 isNotReserved");
+                                } else
+                                    System.out.println("\nRoom not found! Please input a proper value.");
+                                break;
 
-        return selectedRoom;
-    }
+                            case 3: // Select a reservation among all the rooms and then show their info
 
-    /**
-     * Adds the initial room for the hotel.
-     * @param numberOfRooms the number of rooms in the hotel.
-     */    
-    public void addInitialRoom(int numberOfRooms) { // new
-        int i;
-        String roomName;
+                                if (!selectedHotel.hasReservation()){
+                                    System.out.println("\nNo reservations found!");
+                                    break;
+                                } // Exits out if there are no reservation
 
-        if ((numberOfRooms + this.roomList.size()) > 50) { // If the number of rooms we want to add exceeds 50, don't add
-            System.out.println("Cannot add more than 50 rooms");
-            return;
-        }
+                                Reservation selectedReservation = selectedHotel.selectReservation();
 
-        for (i = 0; i < numberOfRooms; i++) {
-            roomName = this.hotelID + String.format("%03d", this.roomNumber++); // So parang 1 (first hotel) then catenate 01, 02, 03, etc.
-            this.roomList.add(new Room(roomName));
-        }
+                                if (selectedReservation != null) {
+                                    System.out.println("\nGuest Name: " + selectedReservation.getGuestName());
+                                    System.out.println("\nCheck-In Date: " + selectedReservation.getCheckInDate());
+                                    System.out.println("\nCheck-Out Date: " + selectedReservation.getCheckOutDate());
+                                    System.out.println("\nRoom Name: " + selectedReservation.getRoom().getRoomName());
+                                    System.out.println(selectedReservation.getPriceBreakdown());
+                                } else
+                                    System.out.println("\nReservation not found! Please input a proper Guest Name.");
+                                break;
+                            case 0: // Exit to go back to main loop
+                                System.out.println("\nExiting Low-Level Information Viewer...");
+                                break;
 
-        System.out.println("\n1 Room successfully added. Congrats on creating your Hotel!\n");
-    }
+                            default:
+                                System.out.println("\nInvalid choice!");
+                                break;
+                        }
+                    } while (choice2 != 0);
+                    break;
 
-    /**
-     * Adds rooms to the hotel with unique naming convention.
-     * @param numberOfRooms the number of rooms to be added.
-     * @return a true if rooms were added, false otherwise.
-     */
-    public boolean addRoom(int numberOfRooms) {
-        int i;
-        String roomName;
+                case 0:
+                    // EXIT
+                    System.out.println("\nExiting Hotel Viewer...\n");
+                    break;
 
-        if ((numberOfRooms + this.roomList.size()) > 50) { // If the number of rooms we want to add exceeds 50, don't add
-            System.out.println("Cannot add more than 50 rooms");
-            return false;
-        }
-
-        if (confirmAction()) {
-            for (i = 0; i < numberOfRooms; i++) {
-                roomName = this.hotelID + String.format("%03d", this.roomNumber++); // So parang 1 (first hotel) then catenate 01, 02, 03, etc.
-                this.roomList.add(new Room(roomName));
+                default:
+                    System.out.println("\nInvalid choice!");
+                    break;
             }
-        } else
-            return true; // The case where the user inputs N to end the loop in System
-
-        System.out.println("Room(s) successfully added.\n");
-        return true;
+        } while (choice != 0);
     }
 
-    /**
-     * Removes a room only if it does not have an active reservation and if it is not the last room.
-     */
-    public void removeRoom() {
-        if (this.roomList.size() == 1) {
-            System.out.println("\nCannot remove last room.");
-            return;
-        }
-
-        Room selectedRoom = selectRoom();
-
-        if (selectedRoom == null) {
-            System.out.println("\nRoom not found! Please input a proper value.");
-            return;
-        }
-
-        if (selectedRoom.isReserved()) {
-            System.out.println("\nCannot remove room that is Reserved/Reserved.\n");
-        } else {
-            if (confirmAction()) {
-                this.roomList.remove(selectedRoom);
-                System.out.println("\nRoom is successfully removed.\n");
-            } else
-                System.out.println("\nYou cancelled the modification.\n");
-        }
-    }
-
-    /**
-     * Updates the pricing of the rooms only if there is no reservations and the new price is >= 100.0.
-     */
-    public void updateRoomPrice() {
+    /*
+    Pretty much done with this one
+    */
+    public void manageHotel() {
         Scanner scanner = new Scanner(System.in);
-        double price = 0.0;
-        boolean valid = false;
-        int i;
-
-
-        if (this.hasReservation()) {
-            System.out.println("\nCannot update price there is a Reserved room. Remove the reservation first.\n");
-            return;
-        }
-
-        System.out.println("\nNo rooms are Reserved. You can update the price.\n");
-        while (!valid) {
-            System.out.println("Enter new price: ");
-            price = scanner.nextDouble();
-
-            if (price >= 100.0)
-                valid = true;
-            else
-                System.out.println("\nPrice must be more than 100. Input a new value!\n");
-        }
-
-        if (confirmAction()) {
-            for (i = 0; i < this.roomList.size(); i++)
-                this.roomList.get(i).setBasePrice(price);  // Sets all rooms to specified price
-            System.out.println("\n All rooms have been set to" + price + " per night.\n");
-        } else
-            System.out.println("\nYou cancelled the modification.\n");
-    }
-
-    /**
-     * A menu for cancelling/removing a reservation.
-     */    
-    public void cancelReservation() {
-
-        //if null condition
-        if (this.hasReservation())
-            System.out.println("\nThere is no reservation to cancel.\n");
-        else {
-            Reservation selectedReservation = selectReservation();
-            Room room = selectedReservation.getRoom(); // Linked room from the reservation
-
-            if (confirmAction()) {
-                room.setReservationList(0, selectedReservation.getCheckInDate(), selectedReservation.getCheckOutDate());
-                room.getReservations().remove(selectedReservation);
-                room.resetReservation(); // For resetting purposes, if there are no reservation
-                System.out.println("Successfully removed the reservation by" + selectedReservation.getGuestName());
-            } else
-                System.out.println("\nYou cancelled the modification.\n");
-        }
-    }
-
-    /**
-     * Calculates the earnings of the hotel.
-     * @return the total earnings.
-     */
-    public double calculateEstimatedEarnings() {   // based on reservation ITERATE THROUGH ALL ROOMS
-        for (Room room : this.roomList) {
-            for (Reservation reservation : room.getReservations()) {
-                totalEarnings += reservation.getTotalPrice();
-            }
-        }
-        return totalEarnings;
-    }
-
-    /**
-     * Asks the user for their name, check in date, check out date.
-     * It checks if these details are valid, if valid it adds the reservation.
-     */    
-    public void addReservation() {
-        Scanner scanner = new Scanner(System.in);
-
-        String guestName;
-        int checkInDate, checkOutDate;
-        boolean flag = false;
-
-        System.out.println("Enter guest name: ");
-        guestName = scanner.next();
-
-
-        System.out.println("Enter check in date: "); // make do while conditions for these and fix the overlap
-        checkInDate = scanner.nextInt();
-
-        System.out.println("Enter check-out date: ");
-        checkOutDate = scanner.nextInt();
-
-        Room selectedRoom = this.selectRoom();
-
-        if (selectedRoom != null) {
-            Reservation newReservation = new Reservation(guestName, checkInDate, checkOutDate, selectedRoom);
-            flag = newReservation.checkReservation(checkInDate, checkOutDate); //Check first
-
-            if (flag) {
-                selectedRoom.getReservations().add(newReservation);                 // Adds reservation to reservationList
-                selectedRoom.setReservationList(1, checkInDate, checkOutDate); // Puts days reserved in the calendar
-                selectedRoom.setReserved(true); // Sets room to 'reserved' or 'true' for isReserved
-                System.out.println("\nReservation is successfully added.\n");
-            }
-            else
-                System.out.println("\nRoom is already reserved on the selected dates.\n");
-            return;
-        }
-        System.out.println("\nRoom not found! Please input a proper value.\n");
-    }
-
-    /**
-     * Checks the number of rooms that have been reserved on a selected date
-     * @param day the selected date to check.
-     * @return the number of rooms reserved.
-     */
-    public int checkSelectedDay(int day) {
-        int count = 0;
-        for (Room room : this.roomList) {
-            for (Reservation reservation : room.getReservations()) {
-                if (day >= reservation.getCheckInDate() && day <= reservation.getCheckOutDate()) {
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-
-    /**
-     * A method that confirms any action that the user is trying to take.
-     * @return confirm case Y.
-     */    
-    private boolean confirmAction() { // Private so that it can only be accessed here  -- new
-        Scanner scanner = new Scanner(System.in);
-        String confirm;
+        int choice, numberOfRooms;
+        boolean result, exit = true;
+        Hotel selectedHotel = selectHotel();
 
         do {
-            System.out.println("\nAre you sure you want to continue with this modification? (Y/N) ");
-            confirm = scanner.next();
-        } while (!confirm.equalsIgnoreCase("Y") && !confirm.equalsIgnoreCase("N"));
+            System.out.println("\nCurrent Hotel: " + selectedHotel.getHotelName());
+            System.out.println("""
+                                   \s
+                    ---HOTEL MANAGER---
 
-        return confirm.equalsIgnoreCase("Y");
-    }
+                    [1] Change Name of Hotel
+                    [2] Add Room(s)
+                    [3] Remove Room
+                    [4] Update Room Base Price
+                    [5] Remove Reservation
+                    [6] Demolish Hotel
+                    [0] Exit to menu
+                   \s""");
 
-    /**
-     * Checks the rooms if there are reservations.
-     * @return a true if there are reserved rooms.
-     */    
-    public boolean hasReservation() { // new
-        for (Room room : this.roomList) {
-            if (room.isReserved()) {
-                return true;
+            System.out.println("Choose a number: ");
+            choice = scanner.nextInt();
+            switch (choice) {
+                case 1: // Change name of hotel
+                    changeHotelName(selectedHotel);
+                    break;
+
+                case 2: // Add Room
+                    do {
+                        System.out.println("\nHow many Rooms do you want to add: ");
+                        numberOfRooms = scanner.nextInt();
+                        result = selectedHotel.addRoom(numberOfRooms);
+                    } while (!result);
+                    break;
+
+                case 3: // Remove room
+                    selectedHotel.removeRoom();
+                    break;
+
+                case 4: // Update base price of room (check conditions)
+                    selectedHotel.updateRoomPrice();
+                    break;
+
+                case 5: // Remove reservation
+                    selectedHotel.cancelReservation();
+                    break;
+
+                case 6: // Demolish hotel
+                    if (selectedHotel.demolishHotel()) {
+                        hotelList.remove(selectedHotel);
+                        exit = false;
+                    }
+                    break;
+
+                case 0:
+                    // EXIT
+                    System.out.println("\nExiting Hotel Manager...\n");
+                    exit = false;
+                    break;
+
+                default:
+                    System.out.println("\nInvalid choice!");
+                    break;
             }
-        }
-        return false;
+        } while (exit);
     }
+
+    public void simulateBooking() {
+        Scanner scanner = new Scanner(System.in);
+        Hotel selectedHotel = selectHotel();
+
+        selectedHotel.addReservation();
+    }
+
 }
