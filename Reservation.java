@@ -1,7 +1,8 @@
 import java.util.ArrayList;
+
 /**
- * This Reservation class represents the details of the reservation in a hotel.
- * It has details like the guest name, check in date, check out date, total price, etc.
+ * This class has the details of a reservation and checks if the reservation is valid.
+ * It has details such as guest name, check in date, check out date, selected room of the reservation, and total price of the reservation.
  */    
 class Reservation {
 
@@ -12,11 +13,11 @@ class Reservation {
     private double totalPrice;
 
     /**
-     * Constructor for the reservation
-     * @param guestName name of the guest reserving
-     * @param checkInDate the date when the guest will check in
-     * @param checkOutDate the date when the guest will check out
-     * @param room the room that the guest will stay at
+     * Creates a reservation.
+     * @param guestName name of the guest.
+     * @param checkInDate the date when the guest will check in.
+     * @param checkOutDate the date when the guest will check out.
+     * @param room the room that the guest will stay at.
      */
     public Reservation(String guestName, int checkInDate, int checkOutDate, Room room) {
         this.guestName = guestName;
@@ -27,8 +28,8 @@ class Reservation {
     }
 
     /**
-     * Gets the name of the guest
-     * @return the guest name (String)
+     * Gets the name of the guest.
+     * @return the guest's name.
      */
     public String getGuestName() {
         return this.guestName;
@@ -36,7 +37,7 @@ class Reservation {
 
     /**
      * Gets the check out date of the reservation
-     * @return the check out date (int)
+     * @return the check in date.
      */
     public int getCheckInDate() {
         return this.checkInDate;
@@ -44,23 +45,23 @@ class Reservation {
 
     /**
      * Gets the check out date of the reservation
-     * @return the check out date (int)
+     * @return the check out date.
      */
     public int getCheckOutDate() {
         return this.checkOutDate;
     }
 
     /**
-     * Gets the room details of the reservation
-     * @return the room details (Room)
+     * Gets the room selected.
+     * @return the room.
      */
     public Room getRoom() {
         return this.room;
     }
 
     /**
-     * Gets the total price of the reservation
-     * @return the total price (double)
+     * Gets the total price of the reservation.
+     * @return the total price.
      */
     public double getTotalPrice() {
         int numOfDays = this.checkOutDate - this.checkInDate + 1;
@@ -68,11 +69,8 @@ class Reservation {
     }
 
     /**
-     * Gets the total price breakdown of the reservation
-     * @return a string of number of days, base price, and total price
-     */
-    /*
-     * tostring method where we just show the number of days and multiply to base price to show the totalprice
+     * Gets the total price breakdown of the reservation.
+     * @return a string of number of days, base price, and total price.
      */
     public String getPriceBreakdown() {
         int numOfDays = this.checkOutDate - this.checkInDate + 1;
@@ -81,9 +79,9 @@ class Reservation {
     }
 
     /**
-     * A method that checks if a reservation is valid
-     * @param checkInDate the date when the guest will check in
-     * @param checkOutDate the date when the guest will check out
+     * A method that checks if a reservation is valid.
+     * @param checkInDate the date when the guest will check in.
+     * @param checkOutDate the date when the guest will check out.
      */
     // Condition checking to verify if new reservation is possible. True if reservation is valid and false if not.
     public boolean checkReservation(int checkInDate, int checkOutDate) {
