@@ -36,7 +36,7 @@ public class Hotel {
 
     /**
      * Sets the name of the hotel.
-     * @param name of the hotel.
+     * @param hotelName name of the hotel.
      */    
     public void setHotelName(String hotelName) {
         this.hotelName = hotelName;
