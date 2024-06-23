@@ -27,19 +27,19 @@ public class Hotel {
     }
 
     /**
-     * Gets the name of the hotel.
-     * @return the hotel's name.
-     */ 
-    public String getHotelName() {
-        return hotelName;
-    }
-
-    /**
      * Sets the name of the hotel.
      * @param hotelName name of the hotel.
      */ 
     public void setHotelName(String hotelName) {
         this.hotelName = hotelName;
+    }
+
+    /**
+     * Gets the name of the hotel.
+     * @return the hotel's name.
+     */ 
+    public String getHotelName() {
+        return hotelName;
     }
 
     /**
