@@ -156,7 +156,7 @@ public class Hotel {
         System.out.println("\n1 Room successfully added. Congrats on creating your Hotel!\n");
     }
 
-    /*
+    /**
      * Adds rooms to the hotel with unique naming convention.
      * @param numberOfRooms the number of rooms to be added.
      * @return a true if rooms were added, false otherwise.
@@ -182,7 +182,7 @@ public class Hotel {
         return true;
     }
 
-    /*
+    /**
      * Removes a room only if it does not have an active reservation and if it is not the last room.
      */
     public void removeRoom() {
@@ -209,7 +209,7 @@ public class Hotel {
         }
     }
 
-    /*
+    /**
      * Updates the pricing of the rooms only if there is no reservations and the new price is >= 100.0.
      */
     public void updateRoomPrice() {
@@ -265,7 +265,7 @@ public class Hotel {
         }
     }
 
-    /*
+    /**
      * Calculates the earnings of the hotel.
      * @return the total earnings.
      */
@@ -320,6 +320,7 @@ public class Hotel {
 
     /**
      * Checks the number of rooms that have been reserved on a selected date
+     * @param day the selected date to check.
      * @return the number of rooms reserved.
      */
     public int checkSelectedDay(int day) {
