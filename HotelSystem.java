@@ -9,7 +9,7 @@ public class HotelSystem {
 
     private ArrayList<Hotel> hotelList;
 
-    /*
+    /**
      * Initializes an arraylist of hotels.
      */
     public HotelSystem() {
@@ -24,7 +24,7 @@ public class HotelSystem {
         return hotelList;
     }
 
-    /*
+    /**
      * Constructs a hotel and it makes sure that the hotel has a minimum of one room and a uniqe name.
      * @param hotelName the name of the hotel.
      */
@@ -72,6 +72,7 @@ public class HotelSystem {
 
     /**
      * A menu where the user can select a hotel from a list of hotel.
+     * @return the selected hotel.
      */    
     public Hotel selectHotel() {
         Scanner scanner = new Scanner(System.in);
