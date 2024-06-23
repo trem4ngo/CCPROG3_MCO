@@ -50,7 +50,12 @@ public class Main {
                     else
                         hotelSystem.manageHotel();
                     break;
-
+                case 4:
+					if (hotelSystem.getHotelList().isEmpty())
+                        System.out.println("\nNo Hotel has been created yet.");
+                    else
+						hotelSystem.simulateBooking();
+					break;
                 case 0:
                     System.out.println("Program will be closing...");
                     exitPS = false;// Exits the program
