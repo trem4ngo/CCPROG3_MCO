@@ -1,101 +1,62 @@
-import java.util.ArrayList;
+public class Reservation {
 
-public class Room {
+    private String guestName;
+    private int checkInDate;
+    private int checkOutDate;
+    private Room room;
+    private double totalPrice;
 
-    private final String roomName;
-    private ArrayList<Reservation> reservationList; // Stores the reservation list
-    private double basePrice;
-    private boolean isReserved;                     // Just signifies if just one day is reserved for ease
-    private int[] Calendar;         //new           // 1 isReserved, 2 isCheckInDate, 3 isCheckOutDate, 4 isOverlap, 5 isSameDay, 0 isNotReserved
-
-    public Room(String roomName) {
-        this.roomName = roomName;
-        this.basePrice = 1299.0;
-        this.isReserved = false;
-        reservationList = new ArrayList<>();
-        this.Calendar = new int[31];
+    public Reservation(String guestName, int checkInDate, int checkOutDate, Room room) {
+        this.guestName = guestName;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.room = room;
+        this.totalPrice = 0;
     }
 
-    public ArrayList<Reservation> getReservations() {
-        return reservationList;
+    public String getGuestName() {
+        return this.guestName;
     }
 
-    public String getRoomName() {
-        return this.roomName;
+    public int getCheckInDate() {
+        return this.checkInDate;
     }
 
-    public int[] getCalendar() { // Array for the calendar
-        return Calendar;
+    public int getCheckOutDate() {
+        return this.checkOutDate;
     }
 
-    public double getBasePrice() {
-        return this.basePrice;
+    public Room getRoom() {
+        return this.room;
     }
 
-    public void setBasePrice(double newPrice) { // remove if no usage
-        this.basePrice = newPrice;
+    public double getTotalPrice() {
+        int numOfDays = this.checkOutDate - this.checkInDate + 1;
+        this.totalPrice = numOfDays * this.room.getBasePrice();
+        return this.totalPrice;
     }
 
-    public boolean isReserved() {
-        return this.isReserved;
-    } // Checks and returns if room is reserved
 
-    public void setReserved(boolean reserved) {     // Sets a room to true (isReserved)
-        this.isReserved = reserved;
+    /*
+     * tostring method where we just show the number of days and multiply to base price to show the totalprice
+     */
+    public String getPriceBreakdown() {
+        int numOfDays = this.checkOutDate - this.checkInDate + 1;
+        double basePrice = this.room.getBasePrice(), totalPrice = this.getTotalPrice();
+        return "Total Price Breakdown: " + "You reserved for a total of " + numOfDays + " days. Days * $" + basePrice + " per night = $" + totalPrice;
     }
 
-    public void displayCalendar() // new
-    {
-        int i;
-        for (i = 0; i < this.Calendar.length; i++) {
-            System.out.print(this.Calendar[i] + " ");
-            if ((i + 1) % 7 == 0)
-                System.out.println();
-        }
-    }
-
-    public void setReservationList(int rTag, int checkInDate, int checkOutDate) {  // Sets all to 0 not reserved
-        int i;
-
-        if (rTag == 1) // Add Reservation
-        {
-            for (i = checkInDate - 1; i < checkOutDate; i++) {
-                if ((this.Calendar[i] == 3 && checkInDate - 1 == i) || (this.Calendar[i] == 2 && checkOutDate - 1 == i)
-                 || (this.Calendar[i] == 5 && checkOutDate - 1 == i) || (this.Calendar[i] == 5 && checkInDate - 1 == i))
-                    this.Calendar[i] = 4;
-                else if (checkInDate == checkOutDate)
-                    this.Calendar[i] = 5;
-                else if (i == checkInDate - 1)
-                    this.Calendar[i] = 2;
-                else if (i == checkOutDate - 1)
-                    this.Calendar[i] = 3;
-                else
-                    this.Calendar[i] = 1;
+    // Condition checking to verify if new reservation is possible. True if reservation is valid and false if not.
+    public boolean checkReservation(int checkInDate, int checkOutDate) {
+        for (Reservation reservation : this.room.getReservations()) {
+            if (reservation != this) { // Exclude the current reservation
+                if ((checkInDate >= reservation.getCheckInDate() && checkInDate < reservation.getCheckOutDate())
+                 || (checkOutDate > reservation.getCheckInDate() && checkOutDate <= reservation.getCheckOutDate())
+                 || (checkInDate == reservation.getCheckInDate() && checkOutDate == reservation.getCheckOutDate())) {
+                    return false;
+                }
             }
         }
-
-        if (rTag == 0) // Cancel Reservation
-        {
-            for (i = checkInDate - 1; i < checkOutDate; i++) {
-                if (this.Calendar[i] != 4)
-                    this.Calendar[i] = 0;
-            }
-
-        }
+        return true;
     }
-
-    public int countCalendar() {
-        int count = 0;
-        for (Reservation reservation : this.reservationList) {
-            count += reservation.getCheckOutDate() - reservation.getCheckInDate() + 1;
-        }
-        return count;
-    }
-
-    public void resetReservation() { // Check days reserved and if they are all 0, set reserved to false again
-        if (this.countCalendar() == 0 && this.isReserved) {
-            this.isReserved = false;
-        }
-    }
-
 }
