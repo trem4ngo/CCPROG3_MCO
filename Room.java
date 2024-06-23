@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+/**
+ * This class has details about a room of the hotel.
+ * Details such as room name, base price, reservation list, reservation status, and a reservation calendar.
+ */
 public class Room {
 
     private final String roomName;
@@ -8,6 +12,10 @@ public class Room {
     private boolean isReserved;                     // Just signifies if just one day is reserved for ease
     private int[] Calendar;         //new           // 1 isReserved, 2 isCheckInDate, 3 isCheckOutDate, 4 isOverlap, 5 isSameDay, 0 isNotReserved
 
+    /**
+     * Constructs and initializes a room.
+     * @param roomName the name of the room.
+     */
     public Room(String roomName) {
         this.roomName = roomName;
         this.basePrice = 1299.0;
@@ -16,34 +24,66 @@ public class Room {
         this.Calendar = new int[31];
     }
 
+    /**
+     * Gets the list of reservations.
+     * @return the reservation list.
+     */
     public ArrayList<Reservation> getReservations() {
         return reservationList;
     }
 
+    /**
+     * Gets the name of the room.
+     * @return the room name.
+     */
     public String getRoomName() {
         return this.roomName;
     }
 
+    /**
+     * Gets the calendar with the reservations in it.
+     * @return the calendar.
+     */
     public int[] getCalendar() { // Array for the calendar
         return Calendar;
     }
 
+    /**
+     * Gets the base price of the room.
+     * @return the base price.
+     */
     public double getBasePrice() {
         return this.basePrice;
     }
 
+    /**
+     * Sets the new price for the room.
+     * @param newPrice the new base price of the room.
+     */
     public void setBasePrice(double newPrice) { // remove if no usage
         this.basePrice = newPrice;
     }
 
+    /**
+     * Gets the status of the room.
+     * @return a true if the room is reserved, false otherwise.
+     */
     public boolean isReserved() {
         return this.isReserved;
-    } // Checks and returns if room is reserved
+    }
 
+    /**
+     * Sets the room to be reserved or not.
+     * @param reserved the reserve status of a room.
+     */
     public void setReserved(boolean reserved) {     // Sets a room to true (isReserved)
         this.isReserved = reserved;
     }
 
+    
+    /**
+     * Displays a calendar with reservations in it.
+     */
     public void displayCalendar() // new
     {
         int i;
@@ -54,6 +94,12 @@ public class Room {
         }
     }
 
+    /**
+     * Sets the reservations for the room.
+     * @param rTag a mode to know if a reservation will be added or canceled.
+     * @param checkInDate the check in date of the reservation.
+     * @param checkOutDate the check out date of the reservation.
+     */
     public void setReservationList(int rTag, int checkInDate, int checkOutDate) {  // Sets all to 0 not reserved
         int i;
 
@@ -84,6 +130,10 @@ public class Room {
         }
     }
 
+    /**
+     * Counts how many days are reserved the room is reserved for.
+     * @return the number of days that the rooms is reserved.
+     */
     public int countCalendar() {
         int count = 0;
         for (Reservation reservation : this.reservationList) {
@@ -92,6 +142,9 @@ public class Room {
         return count;
     }
 
+    /**
+     * Checks if there are no more reservations for the room, this is to set isReserved (boolean) to false.
+     */
     public void resetReservation() { // Check days reserved and if they are all 0, set reserved to false again
         if (this.countCalendar() == 0 && this.isReserved) {
             this.isReserved = false;
