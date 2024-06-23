@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+/**
+ * This class calls all of the methods from other classes and organizes them into a menu.
+ */    
 public class Main {
     public static void main(String[] args) {
 
