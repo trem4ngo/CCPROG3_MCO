@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * This class has the details of a reservation and checks if the reservation is valid.
  * It has details such as guest name, check in date, check out date, selected room of the reservation, and total price of the reservation.
  */    
-class Reservation {
+public class Reservation {
 
     private String guestName;
     private int checkInDate;
@@ -82,8 +82,8 @@ class Reservation {
      * A method that checks if a reservation is valid.
      * @param checkInDate the date when the guest will check in.
      * @param checkOutDate the date when the guest will check out.
+     * @return a true if reservation is valid, false otherwise.
      */
-    // Condition checking to verify if new reservation is possible. True if reservation is valid and false if not.
     public boolean checkReservation(int checkInDate, int checkOutDate) {
         int i;
         int[] reservedDays = room.getCalendar();
