@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * This class has the details of the hotel and handles the rooms and reservations of the hotel. 
+ * The Hotel class contains details such as hotel ID, hotel name, room list, room number, and total earnings.
+ */  
 public class Hotel {
 
     private final int hotelID;
@@ -9,6 +13,11 @@ public class Hotel {
     private int roomNumber;
     private double totalEarnings;
 
+    /**
+     * Constructs a hotel and initializes a room and its total earnings.
+     * @param hotelName the name of the hotel.
+     * @param hotelID the id of the hotel.
+     */  
     public Hotel(String hotelName, int hotelID) {
         this.hotelName = hotelName;
         this.hotelID = hotelID;
@@ -17,22 +26,42 @@ public class Hotel {
         this.totalEarnings = 0;
     }
 
+    /**
+     * Gets the name of the hotel.
+     * @return the hotel's name.
+     */ 
     public String getHotelName() {
         return hotelName;
     }
 
+    /**
+     * Sets the name of the hotel.
+     * @param hotelName name of the hotel.
+     */ 
     public void setHotelName(String hotelName) {
         this.hotelName = hotelName;
     }
 
+    /**
+     * Gets the list of rooms of the hotel.
+     * @return the list of rooms.
+     */ 
     public ArrayList<Room> getRoomList() { // NEW NAME
         return roomList;
     }
 
+    /**
+     * Gets the number of rooms of the hotel.
+     * @return the number of rooms.
+     */ 
     public int getNumberOfRooms() {
         return roomList.size();
     }
 
+    /**
+     * Gets the total number of reservations of the hotel.
+     * @return the total number of reservations.
+     */ 
     public int getTotalReservations() // new
     {
         int totalReservations = 0;
@@ -44,7 +73,10 @@ public class Hotel {
         return totalReservations;
     }
 
-
+    /**
+     * A menu that allows the user to choose what reservation to cancel.
+     * @return the selected reservation to be cancelled.
+     */ 
     public Reservation selectReservation() { // new
         Scanner scanner = new Scanner(System.in);
         int choice, i, j;
@@ -82,6 +114,10 @@ public class Hotel {
         return selectedReservation;
     }
 
+    /**
+     * Confirms if the hotel will be demolished.
+     * @return a true if the hotel got demolished, false otherwise.
+     */  
     public boolean demolishHotel() { // new
 
         if (confirmAction()) {
@@ -93,6 +129,10 @@ public class Hotel {
         }
     }
 
+    /**
+     * Asks the user to select a room in the hotel.
+     * @return the room selected by the user.
+     */  
     public Room selectRoom() { // new
         Scanner scanner = new Scanner(System.in);
         int choice, i;
@@ -115,6 +155,10 @@ public class Hotel {
         return selectedRoom;
     }
 
+    /**
+     * Adds the initial room for the hotel.
+     * @param numberOfRooms the number of rooms in the hotel.
+     */  
     public void addInitialRoom(int numberOfRooms) { // new
         int i;
         String roomName;
@@ -132,9 +176,10 @@ public class Hotel {
         System.out.println("\n1 Room successfully added. Congrats on creating your Hotel!\n");
     }
 
-    /*
-     * unique naming convention
-     * @room
+    /**
+     * Adds rooms to the hotel with unique naming convention.
+     * @param numberOfRooms the number of rooms to be added.
+     * @return a true if rooms were added, false otherwise.
      */
     public boolean addRoom(int numberOfRooms) {
         int i;
@@ -157,9 +202,8 @@ public class Hotel {
         return true;
     }
 
-    /*
-     * can only be removed if it does not have a active reservation.
-     * @room
+    /**
+     * Removes a room only if it does not have an active reservation and if it is not the last room.
      */
     public void removeRoom() {
         if (this.roomList.size() == 1) {
@@ -185,9 +229,8 @@ public class Hotel {
         }
     }
 
-    /*
-     * can only update if all rooms are false (none are Reserved) and price must be >= 100.0
-     * @room
+    /**
+     * Updates the pricing of the rooms only if there is no reservations and the new price is >= 100.0.
      */
     public void updateRoomPrice() {
         Scanner scanner = new Scanner(System.in);
@@ -220,6 +263,9 @@ public class Hotel {
             System.out.println("\nYou cancelled the modification.\n");
     }
 
+    /**
+     * A menu for cancelling/removing a reservation.
+     */ 
     public void cancelReservation() {
 
         //if null condition
@@ -240,9 +286,9 @@ public class Hotel {
         }
     }
 
-    /*
-     * when it is successful setReserved(true)
-     * @reservation
+    /**
+     * Calculates the earnings of the hotel.
+     * @return the total earnings.
      */
     public double calculateEstimatedEarnings() {   // based on reservation ITERATE THROUGH ALL ROOMS
         double totalEarnings = 0.0;
@@ -254,6 +300,10 @@ public class Hotel {
         return totalEarnings;
     }
 
+    /**
+     * Asks the user for their name, check in date, check out date.
+     * It checks if these details are valid, if valid it adds the reservation.
+     */    
     public void addReservation() {
         Scanner scanner = new Scanner(System.in);
 
@@ -296,7 +346,11 @@ public class Hotel {
         System.out.println("\nRoom not found! Please input a proper value.\n");
     }
 
-    // Checks and returns the number of rooms that have been reserved on a selected date
+    /**
+     * Checks the number of rooms that have been reserved on a selected date
+     * @param day the selected date to check.
+     * @return the number of rooms reserved.
+     */
     public int checkSelectedDay(int day) {
         int count = 0;
         for (Room room : this.roomList) {
@@ -309,6 +363,10 @@ public class Hotel {
         return count;
     }
 
+    /**
+     * A method that confirms any action that the user is trying to take.
+     * @return confirm case Y.
+     */    
     public boolean confirmAction() {
         Scanner scanner = new Scanner(System.in);
         String confirm;
@@ -321,6 +379,10 @@ public class Hotel {
         return confirm.equalsIgnoreCase("Y");
     }
 
+    /**
+     * Checks the rooms if there are reservations.
+     * @return a true if there are reserved rooms.
+     */  
     public boolean hasReservation() { // new
         for (Room room : this.roomList) {
             if (room.isReserved()) {
