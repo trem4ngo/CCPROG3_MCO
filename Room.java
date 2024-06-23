@@ -25,6 +25,22 @@ public class Room {
     }
 
     /**
+     * Sets the new price for the room.
+     * @param newPrice the new base price of the room.
+     */
+    public void setBasePrice(double newPrice) { // remove if no usage
+        this.basePrice = newPrice;
+    }
+
+    /**
+     * Sets the room to be reserved or not.
+     * @param reserved the reserve status of a room.
+     */
+    public void setReserved(boolean reserved) {     // Sets a room to true (isReserved)
+        this.isReserved = reserved;
+    }
+    
+    /**
      * Gets the list of reservations.
      * @return the reservation list.
      */
@@ -57,14 +73,6 @@ public class Room {
     }
 
     /**
-     * Sets the new price for the room.
-     * @param newPrice the new base price of the room.
-     */
-    public void setBasePrice(double newPrice) { // remove if no usage
-        this.basePrice = newPrice;
-    }
-
-    /**
      * Gets the status of the room.
      * @return a true if the room is reserved, false otherwise.
      */
@@ -73,24 +81,11 @@ public class Room {
     }
 
     /**
-     * Sets the room to be reserved or not.
-     * @param reserved the reserve status of a room.
+     * Checks if there are no more reservations for the room, this is to set isReserved (boolean) to false.
      */
-    public void setReserved(boolean reserved) {     // Sets a room to true (isReserved)
-        this.isReserved = reserved;
-    }
-
-    
-    /**
-     * Displays a calendar with reservations in it.
-     */
-    public void displayCalendar() // new
-    {
-        int i;
-        for (i = 0; i < this.Calendar.length; i++) {
-            System.out.print(this.Calendar[i] + " ");
-            if ((i + 1) % 7 == 0)
-                System.out.println();
+    public void resetReservation() { // Check days reserved and if they are all 0, set reserved to false again
+        if (this.countCalendar() == 0 && this.isReserved) {
+            this.isReserved = false;
         }
     }
 
@@ -142,12 +137,16 @@ public class Room {
         return count;
     }
 
-    /**
-     * Checks if there are no more reservations for the room, this is to set isReserved (boolean) to false.
+     /**
+     * Displays a calendar with reservations in it.
      */
-    public void resetReservation() { // Check days reserved and if they are all 0, set reserved to false again
-        if (this.countCalendar() == 0 && this.isReserved) {
-            this.isReserved = false;
+    public void displayCalendar() // new
+    {
+        int i;
+        for (i = 0; i < this.Calendar.length; i++) {
+            System.out.print(this.Calendar[i] + " ");
+            if ((i + 1) % 7 == 0)
+                System.out.println();
         }
     }
 
