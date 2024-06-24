@@ -2,15 +2,15 @@ import java.util.ArrayList;
 
 /**
  * This class has details about a room of the hotel.
- * Details such as room name, base price, reservation list, reservation status, and a reservation calendar.
+ * Details such as room name, base price, reservation list, reservation status, and a reservation calendar for each room.
  */
 public class Room {
 
     private final String roomName;
-    private ArrayList<Reservation> reservationList; // Stores the reservation list
+    private final ArrayList<Reservation> reservationList; // Stores the reservation list
     private double basePrice;
     private boolean isReserved;                     // Just signifies if just one day is reserved for ease
-    private int[] Calendar;         //new           // 1 isReserved, 2 isCheckInDate, 3 isCheckOutDate, 4 isOverlap, 5 isSameDay, 0 isNotReserved
+    private final int[] Calendar;                         // 1 isReserved, 2 isCheckInDate, 3 isCheckOutDate, 4 isOverlap, 5 isSameDay, 0 isNotReserved
 
     /**
      * Constructs and initializes a room.
@@ -36,10 +36,10 @@ public class Room {
      * Sets the room to be reserved or not.
      * @param reserved the reserve status of a room.
      */
-    public void setReserved(boolean reserved) {     // Sets a room to true (isReserved)
+    public void setReserved(boolean reserved) {  // Sets a room to true (isReserved)
         this.isReserved = reserved;
     }
-    
+
     /**
      * Gets the list of reservations.
      * @return the reservation list.
@@ -54,14 +54,6 @@ public class Room {
      */
     public String getRoomName() {
         return this.roomName;
-    }
-
-    /**
-     * Gets the calendar with the reservations in it.
-     * @return the calendar.
-     */
-    public int[] getCalendar() { // Array for the calendar
-        return Calendar;
     }
 
     /**
@@ -93,7 +85,7 @@ public class Room {
      * Sets the reservations for the room.
      * @param rTag a mode to know if a reservation will be added or canceled.
      * @param checkInDate the check in date of the reservation.
-     * @param checkOutDate the check out date of the reservation.
+     * @param checkOutDate the check-out date of the reservation.
      */
     public void setReservationList(int rTag, int checkInDate, int checkOutDate) {  // Sets all to 0 not reserved
         int i;
@@ -102,7 +94,7 @@ public class Room {
         {
             for (i = checkInDate - 1; i < checkOutDate; i++) {
                 if ((this.Calendar[i] == 3 && checkInDate - 1 == i) || (this.Calendar[i] == 2 && checkOutDate - 1 == i)
-                 || (this.Calendar[i] == 5 && checkOutDate - 1 == i) || (this.Calendar[i] == 5 && checkInDate - 1 == i))
+                        || (this.Calendar[i] == 5 && checkOutDate - 1 == i) || (this.Calendar[i] == 5 && checkInDate - 1 == i))
                     this.Calendar[i] = 4;
                 else if (checkInDate == checkOutDate)
                     this.Calendar[i] = 5;
@@ -137,10 +129,10 @@ public class Room {
         return count;
     }
 
-     /**
+    /**
      * Displays a calendar with reservations in it.
      */
-    public void displayCalendar() // new
+    public void displayCalendar()
     {
         int i;
         for (i = 0; i < this.Calendar.length; i++) {
