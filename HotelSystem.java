@@ -3,11 +3,11 @@ import java.util.Scanner;
 
 /**
  * This class handles the hotels and the details of said hotels.
- * It can construct a hotel, change its name, view information, and many more.
- */    
+ * It can construct a hotel, change its name, view information, manage the bookings of the rooms, etc.
+ */
 public class HotelSystem {
 
-    private ArrayList<Hotel> hotelList;
+    private final ArrayList<Hotel> hotelList;
 
     /**
      * Initializes an arraylist of hotels.
@@ -25,7 +25,7 @@ public class HotelSystem {
     }
 
     /**
-     * Constructs a hotel and it makes sure that the hotel has a minimum of one room and a uniqe name.
+     * Constructs a hotel and makes sure that the hotel has a minimum of one room and a unique name.
      * @param hotelName the name of the hotel.
      */
     public void constructHotel(String hotelName) {
@@ -75,7 +75,7 @@ public class HotelSystem {
     /**
      * A menu where the user can select a hotel from a list of hotel.
      * @return the selected hotel.
-     */  
+     */
     public Hotel selectHotel() {
         Scanner scanner = new Scanner(System.in);
         int choice, i;
@@ -102,7 +102,7 @@ public class HotelSystem {
 
     /**
      * Views the high-level and low-level information of a hotel.
-     */   
+     */
     public void viewHotel() {
         Scanner scanner = new Scanner(System.in);
         int choice, choice2, date;
@@ -152,7 +152,7 @@ public class HotelSystem {
                                     date = scanner.nextInt();
                                 } while (date < 0 || date > 31);
                                 System.out.println("Total number of BOOKED rooms for Day#" + date + ": " + selectedHotel.checkSelectedDay(date));
-                                System.out.println("\nTotal number of AVAILABLE rooms for Day#" + date + ": " + (selectedHotel.getTotalReservations() - selectedHotel.checkSelectedDay(date)));
+                                System.out.println("\nTotal number of AVAILABLE rooms for Day#" + date + ": " + (selectedHotel.getNumberOfRooms() - selectedHotel.checkSelectedDay(date)));
                                 break;
 
                             case 2: // II. Info about selected 'room', room's name, price, and availability (print days)
@@ -210,8 +210,8 @@ public class HotelSystem {
     }
 
     /**
-     * A menu and system where users can change details about a hotel.
-     */   
+     * A menu and system where users can modify attributes of a selected hotel.
+     */
     public void manageHotel() {
         Scanner scanner = new Scanner(System.in);
         int choice, numberOfRooms;
@@ -281,12 +281,10 @@ public class HotelSystem {
     }
 
     /**
-     * A system that simulates a booking.
-     */   
+     * A system that simulates the booking process for adding reservations to the rooms.
+     */
     public void simulateBooking() {
-        Scanner scanner = new Scanner(System.in);
         Hotel selectedHotel = selectHotel();
-
         selectedHotel.addReservation();
     }
 
