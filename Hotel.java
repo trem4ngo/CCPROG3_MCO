@@ -105,11 +105,11 @@ public class Hotel {
      */
     public boolean demolishHotel() { // new
 
-        if (confirmAction()) {
+        if (confirmAction() && !this.hasReservation()) {
             System.out.println("\nHotel '" + this.getHotelName() + "' has been demolished!");
             return true;
         } else {
-            System.out.println("\nHotel '" + this.getHotelName() + "' has not been demolished.");
+            System.out.println("\nHotel '" + this.getHotelName() + "' has not been demolished as it may had reservations or you cancelled the modification.");
             return false;
         }
     }
@@ -186,22 +186,23 @@ public class Hotel {
     }
 
     /**
-     * Removes a room only if it does not have an active reservation and if it is not the last room.
+     * Removes multiple rooms based on the number the user inputted, does not remove if room has reservation.
      * @param numberOfRooms the number of rooms the user wants to remove
      */
     public void removeRoom(int numberOfRooms) {
-        int i;
+        int i, numOfRooms = numberOfRooms;
         if (numberOfRooms <= 0 || numberOfRooms >= this.roomList.size()) {
             System.out.println("Invalid number of rooms to remove.");
             return;
         }
 
         if (confirmAction()) {
-            for (i = this.roomList.size() - 1; i >= this.roomList.size() - numberOfRooms && i >= 0; i--) {
+            for (i = this.roomList.size() - 1; i >= 0 && numOfRooms > 0; i--) {
                 Room roomToRemove = this.roomList.get(i); // Remove the last room each time loop iterates but checks first
                 if (!roomToRemove.isReserved()) {
                     this.roomList.remove(roomToRemove);
                     System.out.println("Room " + roomToRemove.getRoomName() + " is successfully removed.");
+                    numOfRooms--;
                 } else {
                     System.out.println("Cannot remove room " + roomToRemove.getRoomName() + " that is Reserved.");
                 }
