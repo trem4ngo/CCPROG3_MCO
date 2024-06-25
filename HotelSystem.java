@@ -226,7 +226,7 @@ public class HotelSystem {
 
                     [1] Change Name of Hotel
                     [2] Add Room(s)
-                    [3] Remove Room
+                    [3] Remove Room(s)
                     [4] Update Room Base Price
                     [5] Remove Reservation
                     [6] Demolish Hotel
@@ -249,7 +249,9 @@ public class HotelSystem {
                     break;
 
                 case 3: // Remove room
-                    selectedHotel.removeRoom();
+                        System.out.println("\nHow many Rooms do you want to remove: ");
+                        numberOfRooms = scanner.nextInt();
+                        selectedHotel.removeRoom(numberOfRooms);
                     break;
 
                 case 4: // Update base price of room (check conditions)
