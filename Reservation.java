@@ -82,17 +82,17 @@ public class Reservation {
         return this.totalPrice;
     }
 
-//    public boolean checkReservation(int checkInDate, int checkOutDate) {
-//        for (Reservation reservation : this.room.getReservations()) {
-//            if (reservation != this) { // Exclude the current reservation
-//                if ((checkInDate >= reservation.getCheckInDate() && checkInDate < reservation.getCheckOutDate())
-//                        || (checkOutDate > reservation.getCheckInDate() && checkOutDate <= reservation.getCheckOutDate())
-//                        || (checkInDate == reservation.getCheckInDate() && checkOutDate == reservation.getCheckOutDate())) {
-//                    return false;
-//                }
-//            }
-//        }
-//        return true;
-//    }
+    public boolean checkReservation(int checkInDate, int checkOutDate) {
+        for (Reservation reservation : this.room.getReservations()) {
+            if (reservation != this) { // Exclude the current reservation
+                if ((checkInDate >= reservation.getCheckInDate() && checkInDate < reservation.getCheckOutDate())
+                        || (checkOutDate > reservation.getCheckInDate() && checkOutDate <= reservation.getCheckOutDate())
+                        || (checkInDate == reservation.getCheckInDate() && checkOutDate == reservation.getCheckOutDate())) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 }

@@ -19,33 +19,29 @@ public class HotelSystem {
     public boolean validateHotelName (String hotelName) {
         for (Hotel hotel : hotelList) {
             if (hotel.getHotelName().equalsIgnoreCase(hotelName)) {
-                return false;
+                return false; // Pop up error if wrong
             }
         }
         return true;
     }
 
     // With GUI Java swing when button confirm is clicked
+    // TEXTBOX NAME
     public void createHotel (String hotelName) {
         Hotel newHotel = new Hotel(hotelName, hotelList.size() + 1);
         hotelList.add(newHotel);
-        //newHotel.addInitialRoom(1);        // Adds 1 room when creating a hotel
+        newHotel.addInitialRoom();        // Adds 1 room when creating a hotel
     }
 
-    // click option and confirmation
+    // confirmation if this would run or not combo box destroy hotel
     public void destroyHotel (Hotel selectedHotel) {
-        // Confirm action
         hotelList.remove(selectedHotel);
     }
 
     // Textbox and pop up finish and confirm menu
-
-    public void changeHotelName (Hotel selectedHotel) {
-
-        // validateHotelName(selectedHotel.getName());
-        // sethotelname
-
-        // Confirm action -- could be in controller
+    public void changeHotelName (String hotelName, Hotel selectedHotel) {
+        if (validateHotelName(selectedHotel.getHotelName()))
+            selectedHotel.setHotelName(hotelName);
     }
 
 

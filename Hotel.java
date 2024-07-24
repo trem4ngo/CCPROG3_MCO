@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * This class has the details of the hotel and handles the rooms and reservations of the hotel.
@@ -37,12 +36,12 @@ public class Hotel {
         return this.hotelName;
     }
 
-    public void setHotelName(String hotelName) {
-        this.hotelName = hotelName;
-    }
-
     public int getNumberOfRooms() {
         return roomList.size();
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
     }
 
     public void addInitialRoom() {
@@ -53,10 +52,8 @@ public class Hotel {
         // Print in actionEvent for validation
     }
 
-    // combobox pick room
-    // textbox number of rooms
+    // textbox number of rooms; combobox room type
     // finish then run method
-
     public void addRoom(int numberOfRooms, String roomType) {
         int i;
         String roomName;
@@ -111,34 +108,63 @@ public class Hotel {
     }
 
     //textbox number of rooms
-
-    public void updateRoomPrice(double basePrice) {
+    public boolean updateRoomPrice(double basePrice) {
         if (this.hasReservation()) {
-            System.out.println("Cannot update room prices while reservations are made.");
-            return;
+            System.out.println("Cannot update room prices while reservations are made."); // Error as well for GUI
+            return false;
         }
-
         if (basePrice < 100) {
             System.out.println("Base price should be at least 100.");
-            return;
+            return false;
         }
 
-        System.out.println("\nNo rooms are Reserved. You can update the price.");
+        System.out.println("\nNo rooms are Reserved. You can update the price."); // Back-end validation purposes
 
-        // Repeat for validity in the controller?
+        for (Room room : this.roomList) {
+            room.setBasePrice(basePrice);
+        }
+        // Confirm action BEFORE THIS FUNC is run
 
-
+        return true;
     }
 
-    public void addReservation() {
+    public boolean addReservation(String guestName, int checkInDate, int checkOutDate, Room selectedRoom) {
+        if (checkInDate < 1 || checkOutDate < 2 || checkOutDate > 31 || checkOutDate <= checkInDate) {
+            System.out.println("Invalid check-in or check-out date.");
+            return false;
+        }
 
+        // Create logic for new reservation being native with discount code outside connecting to this reservation
+        Reservation newReservation = new Reservation(guestName, checkInDate, checkOutDate, selectedRoom);
+
+        selectedRoom.getReservations().add(newReservation);                 // Adds reservation to reservationList
+        selectedRoom.setReservationList(1, checkInDate, checkOutDate); // Puts days reserved in the calendar
+        this.totalReservations++;
+        selectedRoom.setReserved(true); // Sets room to 'reserved' or 'true' for isReserved
+        System.out.println("\nReservation is successfully added.\n");
+
+        return true; // Make sure to call setDiscount after
     }
 
     // pass list of reservation for combobox
     // confirmation
+    public boolean cancelReservation(Reservation selectedReservation) {
+        if (!this.hasReservation())
+        {
+            System.out.println("\nThere is no reservation to cancel.\n");
+            return false;
+        }
 
-    public void cancelReservation() {
+        Room room = selectedReservation.getRoom(); // Linked room from the reservation
+        room.setReservationList(0, selectedReservation.getCheckInDate(), selectedReservation.getCheckOutDate());
+        room.getReservations().remove(selectedReservation);
+        this.totalReservations--;
+        this.totalEarnings -= selectedReservation.getTotalDiscountedPrice();
+        room.resetReservation(); // For resetting purposes, if there are no reservation
+        System.out.println("Successfully removed the reservation by" + selectedReservation.getGuestName());
+        System.out.println("\nTotal Reservations left in the Hotel: " + this.totalReservations);
 
+        return true;
     }
 
     public double calculateEstimatedEarnings() {   // based on reservation ITERATE THROUGH ALL ROOMS
@@ -165,7 +191,6 @@ public class Hotel {
         }
         return count;
     }
-
 
     public boolean hasReservation() {
         for (Room room : this.roomList) {
