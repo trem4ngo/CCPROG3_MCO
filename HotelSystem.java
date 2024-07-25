@@ -17,6 +17,8 @@ public class HotelSystem {
     }
 
     public boolean validateHotelName (String hotelName) {
+        if (hotelName.isEmpty())
+            return false;
         for (Hotel hotel : hotelList) {
             if (hotel.getHotelName().equalsIgnoreCase(hotelName)) {
                 return false; // Pop up error if wrong
@@ -31,6 +33,7 @@ public class HotelSystem {
         Hotel newHotel = new Hotel(hotelName, hotelList.size() + 1);
         hotelList.add(newHotel);
         newHotel.addInitialRoom();        // Adds 1 room when creating a hotel
+        System.out.println("Created hotel with name: " + hotelName + "!");
     }
 
     // confirmation if this would run or not combo box destroy hotel

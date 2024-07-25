@@ -49,7 +49,7 @@ public class Hotel {
 
         roomName = "S" + this.hotelID + String.format("%03d", this.roomNumber++);
         this.roomList.add(new Room(roomName));
-        // Print in actionEvent for validation
+        System.out.println("Created 1 Standard Room.");
     }
 
     // textbox number of rooms; combobox room type

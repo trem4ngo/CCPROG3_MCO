@@ -1,3 +1,4 @@
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
@@ -14,24 +15,42 @@ public class HRS_Controller implements ActionListener, DocumentListener {
         this.gui = gui;
         this.hotelSystem = hotelSystem;
 
-        updateView();
-
         gui.setActionListener(this);
         gui.setDocumentListener(this);
     }
 
-    public void updateView()
-    {
-        // Update the view with the current state of the model
-        // This could involve updating the GUI components with the current data
-
-        System.out.println("Hello");
-
-    }
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println("Action performed: " + e.getActionCommand());
+
+
+        // Create Hotel Menu
+        if (e.getActionCommand().equals("CreateMenu"))
+            gui.showCreateMenu();
+
+
+        // Create Hotel
+        if (e.getActionCommand().equals("Create")) {
+            // Get the hotel name from the GUI
+            // Validate the hotel name
+            if (hotelSystem.validateHotelName(gui.getHotelName())) {
+                hotelSystem.createHotel(gui.getHotelName());
+                // After creating it should proceed to MainMenu
+                gui.showMainMenu();
+            } else {
+                System.out.println("Invalid hotel name!");
+                // Pop up error message
+            }
+        }
+
+        // Choose Hotel Menu
+//        if (e.getActionCommand().equals("ChooseHotel")) {
+//            if (!hotelSystem.getHotelList().isEmpty())
+//                gui.showChooseHotelMenu();
+//            else
+//                System.out.println("No hotels available! Create one First.");
+//        }
+
 
     }
 
