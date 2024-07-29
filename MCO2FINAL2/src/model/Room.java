@@ -10,7 +10,6 @@ public class Room {
 
     private final String roomName;
     private final ArrayList<Reservation> reservationList; // Stores the reservation list
-    private Reservation selectedReservation;
 
     protected double basePrice;
     private boolean isReserved;                           // Just signifies if just one day is reserved
@@ -52,16 +51,35 @@ public class Room {
         return this.priceModifiers[index];
     }
 
+    public String[] getReservationNames() {
+        String[] names = new String[reservationList.size()];
+        int i;
+        for (i = 0; i < reservationList.size(); i++) {
+            Reservation reservation = reservationList.get(i);
+            names[i] = reservation.getGuestName();
+        }
+        return names;
+    }
+
+    public String getReservationInfo(int selectedIndex) {
+        if (selectedIndex < 0 || selectedIndex >= reservationList.size())
+            return "No reservation selected.";
+
+        Reservation selectedReservation = reservationList.get(selectedIndex);
+        Room room = selectedReservation.getRoom(); // Room Link
+        return "Guest Name: " + selectedReservation.getGuestName() +
+                "\n\nCheck-in Date: " + selectedReservation.getCheckInDate() +
+                "\nCheck-out Date: " + selectedReservation.getCheckOutDate() +
+                "\n\nRoom Name: " + room.getRoomName() +
+                "\n\n" + selectedReservation.getPriceBreakdown();
+    }
+
     public void setBasePrice(double basePrice) {
         this.basePrice = basePrice;
     }
 
     public void setReserved(boolean reserved) {
         this.isReserved = reserved;
-    }
-
-    public void setSelectedReservation(Reservation selectedReservation) {
-        this.selectedReservation = selectedReservation;
     }
 
     public boolean isReserved() {
@@ -109,6 +127,7 @@ public class Room {
         System.out.println("Date Modifier changed successfully.");
     }
 
+
     public void resetReservation() {
         if (this.countCalendar() == 0 && this.isReserved)
             this.isReserved = false;
@@ -122,7 +141,16 @@ public class Room {
         return count;
     }
 
-
+    public String displayIsReservedTable() {
+        StringBuilder sb = new StringBuilder();
+        int i;
+        for (i = 0; i < this.isReservedTable.length; i++) {
+            sb.append(this.isReservedTable[i]).append(" ");
+            if ((i + 1) % 7 == 0)
+                sb.append("\n");
+        }
+        return sb.toString();
+    }
 
 }
 

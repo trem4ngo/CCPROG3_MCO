@@ -52,10 +52,10 @@ public class Reservation {
     public String getPriceBreakdown() {
         int numOfDays = this.checkOutDate - this.checkInDate + 1;
         double basePrice = this.room.getBasePrice(), totalPrice = numOfDays * basePrice; // Take note of modifiers in total
-        return "Total Price Breakdown: " + "You reserved for a total of " + numOfDays + " days. Days * $" + basePrice + " per night = $" + totalPrice;
+        return "Total Price Breakdown: " + "You reserved for a total of " + numOfDays + " days. \nDays * $" + basePrice + " per night = $" + totalPrice;
     }
 
-    public double getTotalDiscountedPrice() {  // Revamp to incorporate the priceModifiers
+    public double getTotalDiscountedPrice() {
         int i;
         this.totalPrice = 0.0;
 
@@ -96,5 +96,4 @@ public class Reservation {
         }
         return true;
     }
-
 }

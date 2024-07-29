@@ -47,10 +47,16 @@ public class UpdateModifiersController implements ActionListener {
             int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to update the price modifier to " + modifier + " for dates " + checkInDate + " to " + checkOutDate + "?", "Confirm Price Modifier Update", JOptionPane.YES_NO_OPTION);
 
             if (choice == JOptionPane.YES_OPTION) {
-                hotelSystem.getSelectedHotel().setPriceModifiersForAllRooms(checkInDate, checkOutDate, modifier);
-                priceModifierMenu.showSuccess("Price Modifier Updated Successfully. From " + checkInDate + " to " + checkOutDate + " with " + modifier + " modifier.");
+                boolean updated = hotelSystem.getSelectedHotel().setPriceModifiersForAllRooms(checkInDate, checkOutDate, modifier);
                 priceModifierMenu.clearFields();
-                mainController.showHotelManagerMenu();
+                // Check if reservation in hotel
+                if (updated) {
+                    priceModifierMenu.showSuccess("Price Modifier Updated Successfully. From " + checkInDate + " to " + checkOutDate + " with " + modifier + " modifier.");
+                    mainController.showHotelManagerMenu();
+                } else {
+                    priceModifierMenu.showError("Unable to update price modifiers as there is a reservation.");
+                    mainController.showHotelManagerMenu();
+                }
             } else {
                 priceModifierMenu.clearFields();
                 priceModifierMenu.showError("Price Modifier Update Cancelled. Go Back or Input Value again.");

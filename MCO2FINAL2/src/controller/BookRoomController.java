@@ -42,11 +42,13 @@ public class BookRoomController implements ActionListener, DocumentListener, Ite
         System.out.println("\nAction performed: " + e.getActionCommand());
 
         if (e.getActionCommand().equals("Back")) {
+            bookRoomMenu.clearFields();
             mainController.showMainHotelMenu();
         }
 
         if (e.getActionCommand().equals("Done")) {
             try {
+                boolean flag;
                 String guestName = bookRoomMenu.getGuestName();
                 String discountCode = bookRoomMenu.getDiscountCode();
                 int checkInDate = bookRoomMenu.getCheckInDate();
@@ -56,20 +58,17 @@ public class BookRoomController implements ActionListener, DocumentListener, Ite
                 if (guestName.isEmpty())
                     throw new IllegalArgumentException("Guest name cannot be empty!");
 
-                Reservation newReservation = hotelSystem.getSelectedHotel().addReservation(guestName, checkInDate, checkOutDate);
+                flag = hotelSystem.getSelectedHotel().addReservation(guestName, checkInDate, checkOutDate, discountCode);
 
-                // Set Discount Code
-                if (!discountCode.isEmpty())
-                    newReservation.setDiscountCode(discountCode);
-
-                System.out.println("Reservation added successfully for " + guestName);
-                System.out.println("Check-in: " + checkInDate + ", Check-out: " + checkOutDate);
-                System.out.println("Discount code used: " + discountCode);
-                System.out.println("Total price: $" + newReservation.getTotalDiscountedPrice());
-                //bookRoomMenu.showSuccess("Reservation added successfully.");
-
+                if (flag) {
+                    System.out.println("Reservation added successfully for " + guestName);
+                    System.out.println("Check-in: " + checkInDate + ", Check-out: " + checkOutDate);
+                    System.out.println("Discount code used: " + discountCode);
+                    bookRoomMenu.showSuccess("Reservation added successfully.");
+                } else
+                    bookRoomMenu.showError("Room already reserved or dates conflict.");
+                bookRoomMenu.clearFields();
                 mainController.showMainHotelMenu();
-
             } catch (Exception ex) {
                 bookRoomMenu.showError("Error. Input Valid Values.");
             }

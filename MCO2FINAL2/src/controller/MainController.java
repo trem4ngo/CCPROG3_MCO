@@ -4,8 +4,10 @@ import gui.*;
 import model.HotelSystem;
 
 public class MainController {
-    // Gui / View
+    // Model
     private HotelSystem hotelSystem;
+
+    // Gui / View
     private MainMenu mainMenu;
     private CreateHotelMenu createHotelMenu;
     private ChooseHotelMenu chooseHotelMenu;
@@ -16,8 +18,13 @@ public class MainController {
     private MainHotelMenu mainHotelMenu;
     private UpdatePricesMenu updatePricesMenu;
     private PriceModifierMenu priceModifierMenu;
-    private ChooseRoomMenu chooseRoomMenu;
+    private ChooseRoomMenu chooseRoomMenu, chooseRoomMenu2;
     private BookRoomMenu bookRoomMenu;
+    private RemoveReservationMenu removeReservationMenu;
+    private HotelInfoMenu hotelInfoMenu;
+    private AvailabilityChecker availabilityChecker;
+    private RoomViewer roomViewer;
+    private ReservationViewer reservationViewer;
 
     // Controllers
     private MainMenuController mainMenuController;
@@ -31,7 +38,13 @@ public class MainController {
     private UpdatePricesController updatePricesController;
     private UpdateModifiersController updateModifiersController;
     private ChooseRoomController chooseRoomController;
+    private ChooseRoom2Controller chooseRoom2Controller;
     private BookRoomController bookRoomController;
+    private RemoveReservationController removeReservationController;
+    private HotelInfoMenuController hotelInfoMenuController;
+    private AvailabilityCheckerController availabilityCheckerController;
+    private RoomViewerController roomViewerController;
+    private ReservationViewerController reservationViewerController;
 
     public MainController() {
         initializeModel();
@@ -67,10 +80,23 @@ public class MainController {
         chooseRoomMenu.setVisible(false);
         bookRoomMenu = new BookRoomMenu();
         bookRoomMenu.setVisible(false);
+        removeReservationMenu = new RemoveReservationMenu();
+        removeReservationMenu.setVisible(false);
+        hotelInfoMenu = new HotelInfoMenu();
+        hotelInfoMenu.setVisible(false);
+        availabilityChecker = new AvailabilityChecker();
+        availabilityChecker.setVisible(false);
+        roomViewer = new RoomViewer();
+        roomViewer.setVisible(false);
+        reservationViewer = new ReservationViewer();
+        reservationViewer.setVisible(false);
+        chooseRoomMenu2 = new ChooseRoomMenu();
+        chooseRoomMenu2.setVisible(false);
     }
 
 
     private void initializeControllers() {
+        // Instantiate the Controllers
         mainMenuController = new MainMenuController(hotelSystem, mainMenu);
         createHotelMenuController = new CreateHotelMenuController(hotelSystem, createHotelMenu);
         chooseHotelMenuController = new ChooseHotelMenuController(hotelSystem, chooseHotelMenu);
@@ -83,7 +109,14 @@ public class MainController {
         updateModifiersController = new UpdateModifiersController(hotelSystem, priceModifierMenu);
         chooseRoomController = new ChooseRoomController(hotelSystem, chooseRoomMenu);
         bookRoomController = new BookRoomController(hotelSystem, bookRoomMenu);
+        removeReservationController = new RemoveReservationController(hotelSystem, removeReservationMenu);
+        hotelInfoMenuController = new HotelInfoMenuController(hotelSystem, hotelInfoMenu);
+        availabilityCheckerController = new AvailabilityCheckerController(hotelSystem, availabilityChecker);
+        roomViewerController = new RoomViewerController(hotelSystem, roomViewer);
+        reservationViewerController = new ReservationViewerController(hotelSystem, reservationViewer);
+        chooseRoom2Controller = new ChooseRoom2Controller(hotelSystem, chooseRoomMenu2);
 
+        // Setting the Main Controller
         mainMenuController.setMainController(this);
         createHotelMenuController.setMainController(this);
         chooseHotelMenuController.setMainController(this);
@@ -96,7 +129,14 @@ public class MainController {
         updateModifiersController.setMainController(this);
         chooseRoomController.setMainController(this);
         bookRoomController.setMainController(this);
+        removeReservationController.setMainController(this);
+        hotelInfoMenuController.setMainController(this);
+        availabilityCheckerController.setMainController(this);
+        roomViewerController.setMainController(this);
+        reservationViewerController.setMainController(this);
+        chooseRoom2Controller.setMainController(this);
 
+        // Setting Necessary Listeners
         mainMenu.setActionListener(mainMenuController);
         createHotelMenu.setActionListener(createHotelMenuController);
         chooseHotelMenu.setActionListener(chooseHotelMenuController);
@@ -113,6 +153,16 @@ public class MainController {
         chooseRoomMenu.setItemListener(chooseRoomController);
         bookRoomMenu.setActionListener(bookRoomController);
         bookRoomMenu.setItemListener(bookRoomController);
+        removeReservationMenu.setActionListener(removeReservationController);
+        removeReservationMenu.setItemListener(removeReservationController);
+        hotelInfoMenu.setActionListener(hotelInfoMenuController);
+        availabilityChecker.setActionListener(availabilityCheckerController);
+        availabilityChecker.setItemListener(availabilityCheckerController);
+        roomViewer.setActionListener(roomViewerController);
+        reservationViewer.setActionListener(reservationViewerController);
+        reservationViewer.setItemListener(reservationViewerController);
+        chooseRoomMenu2.setActionListener(chooseRoom2Controller);
+        chooseRoomMenu2.setItemListener(chooseRoom2Controller);
     }
 
     public void setVisibilityOff() {
@@ -128,6 +178,12 @@ public class MainController {
         priceModifierMenu.setVisible(false);
         chooseRoomMenu.setVisible(false);
         bookRoomMenu.setVisible(false);
+        removeReservationMenu.setVisible(false);
+        hotelInfoMenu.setVisible(false);
+        availabilityChecker.setVisible(false);
+        roomViewer.setVisible(false);
+        reservationViewer.setVisible(false);
+        chooseRoomMenu2.setVisible(false);
     }
 
     public void showMainMenu() {
@@ -192,9 +248,43 @@ public class MainController {
         chooseRoomMenu.updateRoomList(hotelSystem.getSelectedHotel().getRoomNames());
     }
 
+    public void showChooseRoomMenu2() {
+        setVisibilityOff();
+        chooseRoomMenu2.setVisible(true);
+        chooseRoomMenu2.updateRoomList(hotelSystem.getSelectedHotel().getRoomNames());
+    }
+
     public void showBookRoomMenu() {
         setVisibilityOff();
         bookRoomMenu.setVisible(true);
         bookRoomController.setRoomName();
+    }
+
+    public void showRemoveReservationMenu() {
+        setVisibilityOff();
+        removeReservationMenu.setVisible(true);
+        removeReservationMenu.updateRoomList(hotelSystem.getSelectedHotel().getRoomNames());
+    }
+
+    public void showHotelInfoMenu() {
+        setVisibilityOff();
+        hotelInfoMenu.setVisible(true);
+    }
+
+    public void showAvailabilityChecker() {
+        setVisibilityOff();
+        availabilityChecker.setVisible(true);
+    }
+
+    public void showRoomViewer() {
+        setVisibilityOff();
+        roomViewer.setVisible(true);
+        roomViewer.updateRoomList(hotelSystem.getSelectedHotel().getRoomNames());
+    }
+
+    public void showReservationViewer() {
+        setVisibilityOff();
+        reservationViewer.setVisible(true);
+        reservationViewer.updateGuestList(hotelSystem.getSelectedHotel().getSelectedRoom().getReservationNames());
     }
 }

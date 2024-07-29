@@ -154,4 +154,11 @@ public class BookRoomMenu extends JFrame {
         labelRoomName.setText("Booking For Room: " + roomName);
     }
 
+    public void clearFields() {
+        textFieldGuestName.setText("");
+        textFieldDiscountCode.setText("");
+        comboBoxCheckInDate.setSelectedIndex(0);
+        comboBoxCheckOutDate.setSelectedIndex(0);
+    }
+
 }

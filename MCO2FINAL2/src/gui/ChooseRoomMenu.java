@@ -6,7 +6,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 
-public class ChooseRoomMenu extends JFrame{
+public class ChooseRoomMenu extends JFrame {
     private JComboBox<String> comboBoxRooms;
 
     private JButton buttonDone;
@@ -46,9 +46,9 @@ public class ChooseRoomMenu extends JFrame{
         constraints.anchor = GridBagConstraints.CENTER;
 
         // Room List -- Dropdown for selecting Room
-        JLabel labelRoomList = new JLabel("Room List:");
+        JLabel labelRoomList = new JLabel("Room List: ");
         labelRoomList.setForeground(Color.decode("#112D4E"));
-        labelRoomList.setFont(new Font("Verdana", Font.PLAIN, 25));
+        labelRoomList.setFont(new Font("Verdana", Font.BOLD, 16));
         panelCenter.add(labelRoomList, constraints);
 
         constraints.gridx = 1;

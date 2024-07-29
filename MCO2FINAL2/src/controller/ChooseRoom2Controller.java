@@ -8,12 +8,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class ChooseRoomController implements ActionListener, ItemListener {
+public class ChooseRoom2Controller implements ActionListener, ItemListener {
     private HotelSystem hotelSystem;
     private ChooseRoomMenu chooseRoomMenu;
     private MainController mainController;
 
-    public ChooseRoomController(HotelSystem hotelSystem, ChooseRoomMenu chooseRoomMenu) {
+    public ChooseRoom2Controller(HotelSystem hotelSystem, ChooseRoomMenu chooseRoomMenu) {
         this.hotelSystem = hotelSystem;
         this.chooseRoomMenu = chooseRoomMenu;
     }
@@ -30,12 +30,12 @@ public class ChooseRoomController implements ActionListener, ItemListener {
             String selectedRoom = chooseRoomMenu.getSelectedRoom();
             System.out.println("Selected room: " + selectedRoom);
             hotelSystem.getSelectedHotel().setSelectedRoom(selectedRoom);
-            // Reserve Menu
-            mainController.showBookRoomMenu();
+            // Reservation Viewer
+            mainController.showReservationViewer();
         }
 
         if (e.getActionCommand().equals("Back"))
-            mainController.showMainHotelMenu();
+            mainController.showHotelInfoMenu();
 
     }
 

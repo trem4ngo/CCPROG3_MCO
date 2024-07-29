@@ -50,6 +50,20 @@ public class HotelSystem {
         return "Hotel information not available";
     }
 
+    public String getDayAvailability(int date) {
+        return "Total number of BOOKED rooms for Day#" + date + ": " + selectedHotel.checkSelectedDay(date) +
+                "\n" + "Total number of AVAILABLE rooms for Day#" + date + ": " + (selectedHotel.getNumberOfRooms() -
+                selectedHotel.checkSelectedDay(date));
+    }
+
+
+    public String getRoomInfo(String selectedRoom) {
+        Room room = selectedHotel.findRoomByName(selectedRoom);
+        return "Room Name: " + room.getRoomName() + "\n\nRoom Availability Calendar: \n" +
+                room.displayIsReservedTable() + "\n1 - Reserved, 2 - CheckInDate, \n3 " +
+                "- CheckOutDate, 4 - Overlap, 0 Not Reserved";
+    }
+
     public boolean validateHotelName (String hotelName) {
         if (hotelName.isEmpty())
             return false;

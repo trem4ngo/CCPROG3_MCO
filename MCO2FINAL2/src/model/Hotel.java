@@ -10,6 +10,7 @@ public class Hotel {
 
     private final int hotelID;
     private String hotelName;
+
     private final ArrayList<Room> roomList;
     private int roomNumber;
     private Room selectedRoom;
@@ -58,9 +59,15 @@ public class Hotel {
         this.hotelName = hotelName;
     }
 
-    public void setPriceModifiersForAllRooms(int checkInDate, int checkOutDate, double modifier) {
+    public boolean setPriceModifiersForAllRooms(int checkInDate, int checkOutDate, double modifier) {
+        if (this.hasReservation()) {
+            System.out.println("Cannot update room prices while reservations are made."); // Error as well for GUI
+            return false;
+        }
+
         for (Room room : this.roomList)
             room.setPriceModifiers(checkInDate, checkOutDate, modifier);
+        return true;
     }
 
     public void setSelectedRoom (String roomName) {
@@ -139,35 +146,55 @@ public class Hotel {
         return true;
     }
 
-    public Reservation addReservation(String guestName, int checkInDate, int checkOutDate) {
+    public boolean addReservation(String guestName, int checkInDate, int checkOutDate, String discountCode) {
+        boolean flag;
         if (checkInDate < 1 || checkOutDate < 2 || checkOutDate > 31 || checkOutDate <= checkInDate)
             throw new IllegalArgumentException("Invalid dates.");
 
         Reservation newReservation = new Reservation(guestName, checkInDate, checkOutDate, this.selectedRoom);
+        flag = newReservation.checkReservation(checkInDate, checkOutDate);
 
-        selectedRoom.getReservations().add(newReservation);                 // Adds reservation to reservationList
-        selectedRoom.setReservationList(1, checkInDate, checkOutDate); // Puts days reserved in the calendar
-        this.totalReservations++;
-        selectedRoom.setReserved(true); // Sets room to 'reserved' or 'true' for isReserved
-        System.out.println("\nReservation is successfully added.\n");
-
-        return newReservation;
+        if (flag)
+        {
+            selectedRoom.getReservations().add(newReservation);                 // Adds reservation to reservationList
+            selectedRoom.setReservationList(1, checkInDate, checkOutDate); // Puts days reserved in the calendar
+            this.totalReservations++;
+            selectedRoom.setReserved(true); // Sets room to 'reserved' or 'true' for isReserved
+            newReservation.setDiscountCode(discountCode);
+            System.out.println("\nReservation is successfully added.\n");
+            return true;
+        } else
+            System.out.println("\nRoom is already reserved on the selected dates.\n");
+        return false;
     }
 
-    public boolean cancelReservation(Reservation selectedReservation) {
+    public boolean cancelReservation(String selectedGuestName) {
         if (!this.hasReservation())
         {
             System.out.println("\nThere is no reservation to cancel.\n");
             return false;
         }
 
-        Room room = selectedReservation.getRoom(); // Linked room from the reservation
-        room.setReservationList(0, selectedReservation.getCheckInDate(), selectedReservation.getCheckOutDate());
-        room.getReservations().remove(selectedReservation);
+        Reservation selectedReservation = null;
+        for (Reservation reservation : selectedRoom.getReservations()) {
+            if (reservation.getGuestName().equalsIgnoreCase(selectedGuestName)) {
+                selectedReservation = reservation;
+                break;
+            }
+        }
+
+        if (selectedReservation == null) {
+            System.out.println("\nNo reservation found for the given Guest Name.\n");
+            return false;
+        }
+
+        // Remove the selected reservation from the room and update the total reservations
         this.totalReservations--;
         this.totalEarnings -= selectedReservation.getTotalDiscountedPrice();
-        room.resetReservation(); // For resetting purposes, if there are no reservation
-        System.out.println("Successfully removed the reservation by" + selectedReservation.getGuestName());
+        selectedRoom.getReservations().remove(selectedReservation);
+        selectedRoom.setReservationList(0, selectedReservation.getCheckInDate(), selectedReservation.getCheckOutDate());
+        selectedRoom.resetReservation(); // For resetting purposes, if there are no reservation
+        System.out.println("\nSuccessfully removed the reservation by " + selectedReservation.getGuestName());
         System.out.println("\nTotal Reservations left in the Hotel: " + this.totalReservations);
 
         return true;
@@ -183,6 +210,24 @@ public class Hotel {
         this.totalEarnings = totalEarnings; // Update
 
         return this.totalEarnings;
+    }
+
+    public Room findRoomByName(String roomName) {
+        for (Room room : roomList) {
+            if (room.getRoomName().equals(roomName)) {
+                return room;
+            }
+        }
+        return null;
+    }
+
+    public Reservation findReservationByGuestName(Room room, String guestName) {
+        for (Reservation reservation : room.getReservations()) {
+            if (reservation.getGuestName().equalsIgnoreCase(guestName)) {
+                return reservation;
+            }
+        }
+        return null;
     }
 
     public int checkSelectedDay(int day) {

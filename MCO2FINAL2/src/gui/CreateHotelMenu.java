@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ActionListener;
 
-public class CreateHotelMenu extends JFrame{
+public class CreateHotelMenu extends JFrame {
     private JTextField textFieldHotelName;
     private JButton buttonCreate;
     private JButton buttonCancel;
@@ -68,10 +68,6 @@ public class CreateHotelMenu extends JFrame{
     public void setActionListener(ActionListener listener){
         buttonCreate.addActionListener(listener);
         buttonCancel.addActionListener(listener);
-    }
-
-    public void setDocumentListener(DocumentListener listener){
-        textFieldHotelName.getDocument().addDocumentListener(listener);
     }
 
     public String getHotelName() {

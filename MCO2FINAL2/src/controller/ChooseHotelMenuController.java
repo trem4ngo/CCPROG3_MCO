@@ -27,9 +27,8 @@ public class ChooseHotelMenuController implements ActionListener, ItemListener {
     public void actionPerformed(ActionEvent e) {
         System.out.println("\nAction performed: " + e.getActionCommand());
 
-        if (e.getActionCommand().equals("Back")) {
+        if (e.getActionCommand().equals("Back"))
             mainController.showMainMenu();
-        }
 
         if (e.getActionCommand().equals("Done")) {
             String selectedHotel = chooseHotelMenu.getSelectedHotel();

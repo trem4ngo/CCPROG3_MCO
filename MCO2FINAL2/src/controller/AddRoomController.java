@@ -34,6 +34,7 @@ public class AddRoomController implements ActionListener, ItemListener {
 
                 if (numOfRooms <= 0 || numOfRooms > 50) {
                     System.out.println("Invalid input.");
+                    addRoomMenu.clearField();
                     addRoomMenu.showError("Please Input a number between 0 and 50.");
                     return;
                 }
@@ -49,6 +50,7 @@ public class AddRoomController implements ActionListener, ItemListener {
                     addRoomMenu.showError("Room update cancelled by user.");
                 }
             } catch (NumberFormatException ex) {
+                addRoomMenu.clearField();
                 System.out.println("Invalid input: Not a number");
                 addRoomMenu.showError("Invalid Input.");
             }

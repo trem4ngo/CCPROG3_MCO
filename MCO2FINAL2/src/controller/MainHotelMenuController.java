@@ -46,8 +46,8 @@ public class MainHotelMenuController implements ActionListener {
         if (e.getActionCommand().equals("Book Room"))
             mainController.showChooseRoomMenu();
 
-//        if (e.getActionCommand().equals("View Hotel"))
-//            //
+        if (e.getActionCommand().equals("View Hotel"))
+            mainController.showHotelInfoMenu();
 
 
 

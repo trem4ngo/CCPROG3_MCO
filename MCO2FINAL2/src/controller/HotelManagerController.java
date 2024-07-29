@@ -52,7 +52,7 @@ public class HotelManagerController implements ActionListener {
                 mainController.showPriceModifierMenu();
                 break;
             case "Remove Reservation":
-                // Implement remove reservation logic
+                mainController.showRemoveReservationMenu();
                 break;
             case "Demolish Hotel":
                 int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to demolish hotel?", "Confirm Removal", JOptionPane.YES_NO_OPTION);
@@ -64,7 +64,7 @@ public class HotelManagerController implements ActionListener {
                     hotelManagerMenu.showError("Hotel Demolish cancelled.");
                 break;
             case "Back":
-                mainController.showChooseHotelMenu();
+                mainController.showMainHotelMenu();
                 break;
         }
     }
