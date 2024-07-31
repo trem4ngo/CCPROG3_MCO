@@ -165,9 +165,8 @@ public class Room {
                         this.isReservedTable[i] = 3; // It was a check-out date for another reservation
                     } else if (i == checkOutDate - 1) {
                         this.isReservedTable[i] = 2; // It was a check-in date for another reservation
-                    } else {
+                    } else 
                         this.isReservedTable[i] = 1; // It was a middle day for another reservation
-                    }
                 } else {
                     this.isReservedTable[i] = 0; // No overlap, set to not reserved
                 }
