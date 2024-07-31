@@ -125,7 +125,7 @@ public class Reservation {
     }
 
     /**
-     * Checks the reservation.
+     * Checks the reservation dates if valid, returns true, else false.
      *
      * @param checkInDate the check-in date of the reservation
      * @param checkOutDate the check-out date of the reservation
