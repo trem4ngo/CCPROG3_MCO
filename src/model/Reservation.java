@@ -16,7 +16,7 @@ public class Reservation {
     private final Room room;
 
     /**
-     * Creates a reservation.
+     * Creates a reservation, returns true if valid, else false.
      *
      * @param guestName name of the guest
      * @param checkInDate the date when the guest will check in
@@ -91,7 +91,7 @@ public class Reservation {
     }
 
     /**
-     * Gets the total discounted price.
+     * Gets the total discounted price including the modifiers.
      *
      * @return the total price after the discounts
      */
