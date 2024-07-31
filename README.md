@@ -5,6 +5,7 @@ This is a simple HRS system made via Java, utilizing Swing gui components with t
 
 ---------------------------------
 Authors: 
+
 Josh Enrico Cariaga
 josh_cariaga@dlsu.edu.ph
 
