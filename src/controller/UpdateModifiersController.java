@@ -39,7 +39,7 @@ public class UpdateModifiersController implements ActionListener {
                 priceModifierMenu.showError("Invalid input.");
                 return; // Exit the method if invalid
             }
-            if (modifier < 0.50 || modifier > 1.50 || checkInDate < 1 || checkOutDate < 2 || checkOutDate > 31 || checkOutDate <= checkInDate) {
+            if (modifier < 0.50 || modifier > 1.50 || checkInDate < 1 || checkOutDate < 2 || checkOutDate > 31 || checkOutDate < checkInDate) {
                 priceModifierMenu.showError("Invalid Modifier/Check-In/Check-Out input.");
                 return;
             }
