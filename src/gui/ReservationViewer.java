@@ -7,11 +7,17 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 
+/**
+ * This class is for the GUI of the Reservation Viewer. It has 1 combo box, 1 text area info, and 1 button.
+ */
 public class ReservationViewer extends JFrame {
     private JComboBox<String> comboBoxGuests;
     private JTextArea textAreaInfo;
     private JButton buttonBack;
 
+    /**
+     * Creates and instantiates the window for the Reservation Viewer
+     */
     public ReservationViewer() {
         super("Reservation Viewer");
         setLayout(new BorderLayout());
@@ -24,6 +30,10 @@ public class ReservationViewer extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
+
+    /**
+     * Initializes the layout of the window, its color, buttons, labels, etc.
+     */
 
     private void initialize() {
         // NORTH PANEL
@@ -78,6 +88,11 @@ public class ReservationViewer extends JFrame {
         add(panelSouth, BorderLayout.SOUTH);
     }
 
+    /**
+     * Updates the list of guests in the combo box.
+     *
+     * @param guestNames the list of guest names
+     */
     public void updateGuestList(String[] guestNames) {
         comboBoxGuests.removeAllItems();
         for (String guestName : guestNames) {
@@ -85,22 +100,47 @@ public class ReservationViewer extends JFrame {
         }
     }
 
+    /**
+     * Gets the selected index from the combo box.
+     *
+     * @return combo box guests from selected index
+     */
     public int getSelectedIndex() {
         return comboBoxGuests.getSelectedIndex();
     }
 
+    /**
+     * Sets the reservation information inside text area.
+     *
+     * @param info the reservation information
+     */
     public void setReservationInfo(String info) {
         textAreaInfo.setText(info);
     }
 
+    /**
+     * Listens for an action happening in the Reservation Viewer.
+     *
+     * @param listener the listener for the event
+     */
     public void setActionListener(ActionListener listener) {
         buttonBack.addActionListener(listener);
     }
 
+    /**
+     * Listens for an action happening in the combo box guests.
+     *
+     * @param listener the listener for the event
+     */
     public void setItemListener(ItemListener listener) {
         comboBoxGuests.addItemListener(listener);
     }
 
+    /**
+     * A message dialog to show that an error occurred.
+     *
+     * @param message the error message
+     */
     public void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }

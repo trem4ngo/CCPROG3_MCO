@@ -8,6 +8,9 @@ import javax.swing.event.DocumentListener;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 
+/**
+ * This class is for the GUI of the Book Room menu.
+ */
 public class BookRoomMenu extends JFrame {
     private JButton buttonDone;
     private JButton buttonBack;
@@ -20,6 +23,9 @@ public class BookRoomMenu extends JFrame {
 
     private JLabel labelRoomName;
 
+    /**
+     * Creates and instantiates the window for the Book Room menu.
+     */
     public BookRoomMenu(){
         super();
         setLayout(new BorderLayout());
@@ -33,6 +39,9 @@ public class BookRoomMenu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Initializes the layout of the window, its color, buttons, labels, etc.
+     */
     private void initialize() {
         // NORTH PANEL
         JPanel panelNorth = new JPanel();
@@ -109,6 +118,11 @@ public class BookRoomMenu extends JFrame {
         this.add(panelSouth, BorderLayout.SOUTH);
     }
 
+    /**
+     * Listens for an action happening in the Book Room menu.
+     *
+     * @param listener the listener for the event
+     */
     public void setActionListener(ActionListener listener){
         for (ActionListener al : buttonBack.getActionListeners())
             buttonBack.removeActionListener(al);
@@ -120,45 +134,93 @@ public class BookRoomMenu extends JFrame {
 
     }
 
+    /**
+     * Listens for an action happening in the Book Room menu.
+     *
+     * @param listener the listener for the event
+     */
     public void setDocumentListener(DocumentListener listener){
         textFieldGuestName.getDocument().addDocumentListener(listener);
         textFieldDiscountCode.getDocument().addDocumentListener(listener);
 
     }
 
+    /**
+     * Listens for an action happening in the 2 combo boxes.
+     *
+     * @param listener the listener for the event
+     */
     public void setItemListener(ItemListener listener){
         comboBoxCheckInDate.addItemListener(listener);
         comboBoxCheckOutDate.addItemListener(listener);
     }
 
+    /**
+     * Gets the guest name.
+     *
+     * @return text field guest name
+     */
     public String getGuestName(){
         return textFieldGuestName.getText();
     }
 
+    /**
+     * Gets the discount code.
+     *
+     * @return text field discount code
+     */
     public String getDiscountCode(){
         return textFieldDiscountCode.getText();
     }
 
+    /**
+     * Gets the check-in date.
+     *
+     * @return combo box check-in date
+     */
     public int getCheckInDate(){
         return (Integer)comboBoxCheckInDate.getSelectedItem();
     }
 
+    /**
+     * Gets the check-out date.
+     *
+     * @return combo box check-out date
+     */
     public int getCheckOutDate(){
         return (Integer)comboBoxCheckOutDate.getSelectedItem();
     }
 
+    /**
+     * A message dialog to show that an error occurred.
+     *
+     * @param message the error message
+     */
     public void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * A message dialog to show that the action was a success.
+     *
+     * @param message the success message
+     */
     public void showSuccess(String message) {
         JOptionPane.showMessageDialog(this, message, "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Sets the room name.
+     *
+     * @param roomName the room name
+     */
     public void setRoomName(String roomName) {
         labelRoomName.setText("Booking For Room: " + roomName);
     }
 
+    /**
+     * Clears the field for 2 text fields anf 1 combo box.
+     */
     public void clearFields() {
         textFieldGuestName.setText("");
         textFieldDiscountCode.setText("");

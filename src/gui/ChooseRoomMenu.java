@@ -7,12 +7,18 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 
+/**
+ * This class is for the GUI of the Choose Room menu. It has 1 combo box and 2 buttons.
+ */
 public class ChooseRoomMenu extends JFrame {
     private JComboBox<String> comboBoxRooms;
 
     private JButton buttonDone;
     private JButton buttonBack;
 
+    /**
+     * Creates and instantiates the window for the Choose Room menu.
+     */
     public ChooseRoomMenu(){
         super();
         setLayout(new BorderLayout());
@@ -26,6 +32,9 @@ public class ChooseRoomMenu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Initializes the layout of the window, its color, buttons, labels, etc.
+     */
     private void initialize(){
         // NORTH PANEL
         JPanel panelNorth = new JPanel();
@@ -82,21 +91,41 @@ public class ChooseRoomMenu extends JFrame {
         this.add(panelSouth, BorderLayout.SOUTH);
     }
 
+    /**
+     * Listens for an action happening in the Choose Room menu.
+     *
+     * @param listener the listener for the event
+     */
     public void setActionListener(ActionListener listener){
         buttonBack.addActionListener(listener);
         buttonDone.addActionListener(listener);
     }
 
+    /**
+     * Listens for an action happening in the combo box of rooms.
+     *
+     * @param listener the listener for the event
+     */
     public void setItemListener (ItemListener listener) {
         comboBoxRooms.addItemListener(listener);
     }
 
+    /**
+     * Updates the room list in the combo box.
+     *
+     * @param roomNames the list of room names
+     */
     public void updateRoomList(String[] roomNames) {
         comboBoxRooms.removeAllItems();
         for (String roomName : roomNames)
             comboBoxRooms.addItem(roomName);
     }
 
+    /**
+     * Gets selected room.
+     *
+     * @return combo box rooms
+     */
     public String getSelectedRoom() {
         return (String) comboBoxRooms.getSelectedItem();
     }

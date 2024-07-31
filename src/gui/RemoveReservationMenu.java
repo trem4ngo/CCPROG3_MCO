@@ -7,6 +7,9 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 
+/**
+ * This class is for the GUI of the Remove Reservation Menu. It has 2 combo boxes and 2 buttons.
+ */
 public class RemoveReservationMenu extends JFrame {
     private JComboBox<String> comboBoxRooms;
     private JComboBox<String> comboBoxReservations;
@@ -14,6 +17,9 @@ public class RemoveReservationMenu extends JFrame {
     private JButton buttonDone;
     private JButton buttonBack;
 
+    /**
+     * Creates and instantiates the window for the Remove Reservation Menu.
+     */
     public RemoveReservationMenu() {
         super();
         setLayout(new BorderLayout());
@@ -27,6 +33,9 @@ public class RemoveReservationMenu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Initializes the layout of the window, its color, buttons, labels, etc.
+     */
     private void initialize() {
         // NORTH PANEL
         JPanel panelNorth = new JPanel();
@@ -88,11 +97,21 @@ public class RemoveReservationMenu extends JFrame {
         this.add(panelSouth, BorderLayout.SOUTH);
     }
 
+    /**
+     * Listens for an action happening in the Remove Reservation Menu.
+     *
+     * @param listener the listener for the event
+     */
     public void setActionListener(ActionListener listener) {
         buttonBack.addActionListener(listener);
         buttonDone.addActionListener(listener);
     }
 
+    /**
+     * Listens for an action happening in the combo boxes.
+     *
+     * @param listener the listener for the event
+     */
     public void setItemListener(ItemListener listener) {
         comboBoxRooms.addItemListener(listener);
     }
@@ -103,24 +122,49 @@ public class RemoveReservationMenu extends JFrame {
             comboBoxRooms.addItem(roomName);
     }
 
+    /**
+     * Updates the list of reservations in the combo box.
+     *
+     * @param reservationNames the list of reservation names
+     */
     public void updateReservationList(String[] reservationNames) {
         comboBoxReservations.removeAllItems();
         for (String reservationName : reservationNames)
             comboBoxReservations.addItem(reservationName);
     }
 
+    /**
+     * A message dialog to show that an error occurred.
+     *
+     * @param message the error message
+     */
     public void showSuccess(String message) {
         JOptionPane.showMessageDialog(this, message, "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * A message dialog to show that the action was a success.
+     *
+     * @param message the success message
+     */
     public void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * Gets the selected room from the combobox.
+     *
+     * @return the selected room
+     */
     public String getSelectedRoom() {
         return (String) comboBoxRooms.getSelectedItem();
     }
 
+    /**
+     * Gets the selected Reservation from the combobox.
+     *
+     * @return the selected Reservation
+     */
     public String getSelectedReservation() {
         return (String) comboBoxReservations.getSelectedItem();
     }

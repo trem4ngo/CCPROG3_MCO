@@ -7,11 +7,18 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 
+/**
+ * This class is for the GUI of the Room viewer. It has 1 combo box, 1 text area info, and 1 button.
+ */
+
 public class RoomViewer extends JFrame {
     private JComboBox<String> comboBoxRooms;
     private JTextArea textAreaInfo;
     private JButton buttonBack;
 
+    /**
+     * Creates and instantiates the window for the Room viewer.
+     */
     public RoomViewer() {
         super("Room Viewer");
         setLayout(new BorderLayout());
@@ -25,6 +32,9 @@ public class RoomViewer extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * Initializes the layout of the window, its color, buttons, labels, etc.
+     */
     private void initialize() {
         // NORTH PANEL
         JPanel panelNorth = new JPanel();
@@ -63,6 +73,11 @@ public class RoomViewer extends JFrame {
         add(panelSouth, BorderLayout.SOUTH);
     }
 
+    /**
+     * Updates the room list inside the combo box of rooms.
+     *
+     * @param roomNames the list of room names
+     */
     public void updateRoomList(String[] roomNames) {
         comboBoxRooms.removeAllItems();
         for (String roomName : roomNames) {
@@ -70,18 +85,38 @@ public class RoomViewer extends JFrame {
         }
     }
 
+    /**
+     * Gets the selected room.
+     *
+     * @return the combo box room
+     */
     public String getSelectedRoom() {
         return (String) comboBoxRooms.getSelectedItem();
     }
 
+    /**
+     * Sets the room information.
+     *
+     * @param info the room information
+     */
     public void setRoomInfo(String info) {
         textAreaInfo.setText(info);
     }
 
+    /**
+     * Listens for an action happening in the Room viewer.
+     *
+     * @param listener the listener for the event
+     */
     public void setActionListener(ActionListener listener) {
         buttonBack.addActionListener(listener);
     }
 
+    /**
+     * Listens for an action happening in the combo box for rooms.
+     *
+     * @param listener the listener for the event
+     */
     public void setItemListener(ItemListener listener) {
         comboBoxRooms.addItemListener(listener);
     }

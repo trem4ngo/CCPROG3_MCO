@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 
+/**
+ * This class is the GUI for the Main Hotel menu. It has 4 buttons and a label.
+ */
 public class MainHotelMenu extends JFrame{
     private JButton buttonHotelViewer;
     private JButton buttonHotelManager;
@@ -14,6 +17,9 @@ public class MainHotelMenu extends JFrame{
 
     private JLabel hotelLabel;
 
+    /**
+     * Creates and instantiates the window for the Main Hotel Menu
+     */
     public MainHotelMenu() {
         super();
         setLayout(new BorderLayout());
@@ -27,6 +33,9 @@ public class MainHotelMenu extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Initializes the layout of the window, its color, buttons, labels, etc.
+     */
     private void initialize(){
         // NORTH PANEL
         JPanel panelNorth = new JPanel();
@@ -73,6 +82,11 @@ public class MainHotelMenu extends JFrame{
         this.add(panelCenter, BorderLayout.CENTER);
     }
 
+    /**
+     * Listens for an action happening in the Main Hotel Menu.
+     *
+     * @param listener the listener for the event
+     */
     public void setActionListener(ActionListener listener){
         buttonHotelViewer.addActionListener(listener);
         buttonHotelManager.addActionListener(listener);
@@ -80,6 +94,11 @@ public class MainHotelMenu extends JFrame{
         buttonBack.addActionListener(listener);
     }
 
+    /**
+     * Sets the hotel name in the Main Hotel Menu.
+     *
+     * @param hotelName the hotel's name
+     */
     public void setHotelName(String hotelName) {
         hotelLabel.setText("Selected Hotel: " + hotelName);
     }

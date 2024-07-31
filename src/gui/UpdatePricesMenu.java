@@ -7,11 +7,17 @@ import java.awt.Toolkit;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ActionListener;
 
+/**
+ * This class is for the GUI of the Update prices menu. It has 2 buttons and 1 text field.
+ */
 public class UpdatePricesMenu extends JFrame{
     private JButton buttonDone;
     private JButton buttonBack;
     private JTextField textFieldNewPrice;
 
+    /**
+     * Creates and instantiates the window for the Update Prices menu.
+     */
     public UpdatePricesMenu(){
         super();
         setLayout(new BorderLayout());
@@ -25,6 +31,9 @@ public class UpdatePricesMenu extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Initializes the layout of the window, its color, buttons, labels, etc.
+     */
     private void initialize(){
         // NORTH PANEL
         JPanel panelNorth = new JPanel();
@@ -70,27 +79,46 @@ public class UpdatePricesMenu extends JFrame{
         this.add(panelSouth, BorderLayout.SOUTH);
     }
 
+    /**
+     * Listens for an action happening in the Update Prices menu.
+     *
+     * @param listener the listener for the event
+     */
     public void setActionListener(ActionListener listener){
         buttonBack.addActionListener(listener);
         buttonDone.addActionListener(listener);
     }
 
-    public void setDocumentListener(DocumentListener listener){
-        textFieldNewPrice.getDocument().addDocumentListener(listener);
-    }
-
+    /**
+     * Gets the new price from the text field.
+     *
+     * @return text field new price
+     */
     public String getNewPrice(){
         return textFieldNewPrice.getText();
     }
 
+    /**
+     * Clears the text field for new prices.
+     */
     public void clearField() {
         textFieldNewPrice.setText("");
     }
 
+    /**
+     * A message dialog to show that an error occurred.
+     *
+     * @param message the error message
+     */
     public void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * A message dialog to show that the action was a success.
+     *
+     * @param message the success message
+     */
     public void showSuccess(String message) {
         JOptionPane.showMessageDialog(this, message, "Success", JOptionPane.INFORMATION_MESSAGE);
     }

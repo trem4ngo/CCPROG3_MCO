@@ -4,14 +4,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import javax.swing.event.DocumentListener;
 import java.awt.event.ActionListener;
 
+/**
+ * This class is for the GUI of the Remove Room menu. This has 2 buttons and 1 text field.
+ */
 public class RemoveRoomMenu extends JFrame{
     private JButton buttonDone;
     private JButton buttonBack;
     private JTextField textFieldNoOfRooms;
 
+    /**
+     * Creates and instantiates the window for the Remove Room Menu
+     */
     public RemoveRoomMenu(){
         super();
         setLayout(new BorderLayout());
@@ -25,6 +30,9 @@ public class RemoveRoomMenu extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Initializes the layout of the window, its color, buttons, labels, etc.
+     */
     private void initialize(){
         // NORTH PANEL
         JPanel panelNorth = new JPanel();
@@ -72,27 +80,46 @@ public class RemoveRoomMenu extends JFrame{
         this.add(panelSouth, BorderLayout.SOUTH);
     }
 
+    /**
+     * Listens for an action happening in the Remove Room menu.
+     *
+     * @param listener the listener for the event
+     */
     public void setActionListener(ActionListener listener){
         buttonBack.addActionListener(listener);
         buttonDone.addActionListener(listener);
     }
 
-    public void setDocumentListener(DocumentListener listener){
-        textFieldNoOfRooms.getDocument().addDocumentListener(listener);
-    }
-
+    /**
+     * Gets number of rooms from text field.
+     *
+     * @return text field number of rooms
+     */
     public String getNumOfRooms(){
         return textFieldNoOfRooms.getText();
     }
 
+    /**
+     * Clears the text field for number of rooms.
+     */
     public void clearFields(){
         textFieldNoOfRooms.setText("");
     }
 
+    /**
+     * A message dialog to show that an error occurred.
+     *
+     * @param message the error message
+     */
     public void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * A message dialog to show that the action was a success.
+     *
+     * @param message the success message
+     */
     public void showSuccess(String message) {
         JOptionPane.showMessageDialog(this, message, "Success", JOptionPane.INFORMATION_MESSAGE);
     }

@@ -7,7 +7,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 
 /**
- * This class is for the GUI of the Main Menu.
+ * This class is for the GUI of the Main Menu. It has 2 buttons and a label.
  */
 public class MainMenu extends JFrame{
     private JButton buttonCreate;

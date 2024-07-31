@@ -4,8 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import javax.swing.event.DocumentListener;
 import java.awt.event.ActionListener;
+
+/**
+ * This class is for the GUI of the Price Modifier Menu. This has 2 buttons and 3 text fields.
+ */
 
 public class PriceModifierMenu extends JFrame {
     private JButton buttonDone;
@@ -15,6 +18,9 @@ public class PriceModifierMenu extends JFrame {
     private JTextField textFieldCheckInDate;
     private JTextField textFieldCheckOutDate;
 
+    /**
+     * Creates and instantiates the window for the Price Modifier Menu.
+     */
     public PriceModifierMenu(){
         super();
         setLayout(new BorderLayout());
@@ -28,6 +34,9 @@ public class PriceModifierMenu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Initializes the layout of the window, its color, buttons, labels, etc.
+     */
     private void initialize(){
         // NORTH PANEL
         JPanel panelNorth = new JPanel();
@@ -85,39 +94,66 @@ public class PriceModifierMenu extends JFrame {
         this.add(panelSouth, BorderLayout.SOUTH);
     }
 
+    /**
+     * Listens for an action happening in the Price Modifier menu.
+     *
+     * @param listener the listener for the event
+     */
     public void setActionListener(ActionListener listener){
         buttonDone.addActionListener(listener);
         buttonBack.addActionListener(listener);
     }
 
-    public void setDocumentListener(DocumentListener listener){
-        textFieldModifier.getDocument().addDocumentListener(listener);
-        textFieldCheckInDate.getDocument().addDocumentListener(listener);
-        textFieldCheckOutDate.getDocument().addDocumentListener(listener);
-    }
-
+    /**
+     * Takes the text in text field modifier.
+     *
+     * @return text field modifier
+     */
     public String getModifier() {
         return textFieldModifier.getText();
     }
 
+    /**
+     * Takes the text in text field check in date.
+     *
+     * @return text field check in date
+     */
     public String getCheckInDate() {
         return textFieldCheckInDate.getText();
     }
 
+    /**
+     * Takes the text in text field check-out date.
+     *
+     * @return text field check-out date
+     */
     public String getCheckOutDate() {
         return textFieldCheckOutDate.getText();
     }
 
+    /**
+     * Clears the text fields.
+     */
     public void clearFields() {
         textFieldModifier.setText("");
         textFieldCheckInDate.setText("");
         textFieldCheckOutDate.setText("");
     }
 
+    /**
+     * A message dialog to show that an error occurred.
+     *
+     * @param message the error message
+     */
     public void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * A message dialog to show that the action was a success.
+     *
+     * @param message the success message
+     */
     public void showSuccess(String message) {
         JOptionPane.showMessageDialog(this, message, "Success", JOptionPane.INFORMATION_MESSAGE);
     }

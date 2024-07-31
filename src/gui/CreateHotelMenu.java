@@ -6,11 +6,17 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 
+/**
+ * This class is for the GUI of the Create Hotel Menu. It has 1 text field and 2 buttons.
+ */
 public class CreateHotelMenu extends JFrame {
     private JTextField textFieldHotelName;
     private JButton buttonCreate;
     private JButton buttonCancel;
 
+    /**
+     * Creates and instantiates the window for the Create Hotel Menu.
+     */
     public CreateHotelMenu(){
         super();
         setLayout(new BorderLayout());
@@ -24,6 +30,9 @@ public class CreateHotelMenu extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * Initializes the layout of the window, its color, buttons, labels, etc.
+     */
     private void initialize(){
         // NORTH PANEL
         JPanel panelNorth = new JPanel();
@@ -69,15 +78,28 @@ public class CreateHotelMenu extends JFrame {
         this.add(panelSouth, BorderLayout.SOUTH);
     }
 
+    /**
+     * Listens for an action happening in the Create Hotel Menu.
+     *
+     * @param listener the listener for the event
+     */
     public void setActionListener(ActionListener listener){
         buttonCreate.addActionListener(listener);
         buttonCancel.addActionListener(listener);
     }
 
+    /**
+     * Gets the hotel name from the text field.
+     *
+     * @return text field hotel name
+     */
     public String getHotelName() {
         return textFieldHotelName.getText();
     }
 
+    /**
+     * Clears the text field for hotel name.
+     */
     public void clearField() {
         textFieldHotelName.setText("");
     }

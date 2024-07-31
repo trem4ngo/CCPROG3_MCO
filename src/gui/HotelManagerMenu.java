@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 
+/**
+ * This class is for the GUI of the Hotel Manager menu. It has 8 buttons and a label.
+ */
 public class HotelManagerMenu extends JFrame{
     private JButton buttonChangeName;
     private JButton buttonUpdatePrices;
@@ -18,6 +21,9 @@ public class HotelManagerMenu extends JFrame{
 
     private JLabel hotelLabel;
 
+    /**
+     * Creates and instantiates the window for the Hotel Manager Menu
+     */
     public HotelManagerMenu(){
         super();
         setLayout(new BorderLayout());
@@ -31,6 +37,9 @@ public class HotelManagerMenu extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Initializes the layout of the window, its color, buttons, labels, etc.
+     */
     private void initialize(){
         // NORTH PANEL
         JPanel panelNorth = new JPanel();
@@ -107,7 +116,11 @@ public class HotelManagerMenu extends JFrame{
         this.add(panelSouth, BorderLayout.SOUTH);
     }
 
-
+    /**
+     * Listens for an action happening in the Main Menu.
+     *
+     * @param listener the listener for the event
+     */
     public void setActionListener(ActionListener listener){
         buttonChangeName.addActionListener(listener);
         buttonAddRoom.addActionListener(listener);
@@ -119,16 +132,30 @@ public class HotelManagerMenu extends JFrame{
         buttonBack.addActionListener(listener);
     }
 
+    /**
+     * Sets the hotel name in the label.
+     *
+     * @param hotelName the hotel's name
+     */
     public void setHotelName(String hotelName) {
         hotelLabel.setText("Selected Hotel: " + hotelName);
     }
 
+    /**
+     * A message dialog to show that an error occurred.
+     *
+     * @param message the error message
+     */
     public void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * A message dialog to show that the action was a success.
+     *
+     * @param message the success message
+     */
     public void showSuccess(String message) {
         JOptionPane.showMessageDialog(this, message, "Success", JOptionPane.INFORMATION_MESSAGE);
     }
-
 }

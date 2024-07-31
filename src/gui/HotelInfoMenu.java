@@ -6,12 +6,18 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 
+/**
+ * This class is for the GUI of the Hotel Info Menu. It has 4 buttons.
+ */
 public class HotelInfoMenu extends JFrame {
     private JButton buttonAvailabilityChecker;
     private JButton buttonRoomViewer;
     private JButton buttonReservationViewer;
     private JButton buttonBack;
 
+    /**
+     * Creates and instantiates the window for the Hotel Info menu.
+     */
     public HotelInfoMenu() {
         super();
         setLayout(new BorderLayout());
@@ -25,6 +31,9 @@ public class HotelInfoMenu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Initializes the layout of the window, its color, buttons, labels, etc.
+     */
     private void initialize() {
         // NORTH PANEL
         JPanel panelNorth = new JPanel();
@@ -78,6 +87,11 @@ public class HotelInfoMenu extends JFrame {
         this.add(panelSouth, BorderLayout.SOUTH);
     }
 
+    /**
+     * Listens for an action happening in the Hotel info menu.
+     *
+     * @param listener the listener for the event
+     */
     public void setActionListener(ActionListener listener) {
         buttonAvailabilityChecker.addActionListener(listener);
         buttonRoomViewer.addActionListener(listener);
