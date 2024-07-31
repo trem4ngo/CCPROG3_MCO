@@ -113,8 +113,8 @@ public class Reservation {
                     totalPrice -= this.room.getBasePrice(); // Free 1 model.Room
                 break;
             case "PAYDAY":
-                if (this.checkInDate != 15 || this.checkOutDate != 30)
-                    totalPrice *= 0.93;
+                if ((this.checkInDate <= 15 && this.checkOutDate > 15) || (this.checkInDate <= 30 && this.checkOutDate > 30)) 
+                    totalPrice *= 0.93; // 7% discount
                 break;
             default:
                 System.out.println("\nDiscount Code Not Valid.");
